@@ -19,6 +19,7 @@ export const PokemonDetails: React.FC = () => {
 
   const [isFavorite, setFavorite] = useState(false);
 
+  console.log(selectedPokemon);
   window.matchMedia("(prefers-color-scheme: light)");
 
   return (
@@ -84,7 +85,7 @@ export const PokemonDetails: React.FC = () => {
             <h1 className="relative ms-4 w-8/12 scale-x-110 select-none text-5xl font-bold capitalize text-white">
               {selectedPokemon.name}
             </h1>
-            <h1 className="justify-centertext-base -mt-4 w-full scale-y-90 select-none pr-3 text-end font-bold text-white opacity-90">
+            <h1 className="justify-centertext-base -mt-4 w-full scale-y-90 select-none pr-8 text-end font-bold text-white opacity-90">
               #{getId(selectedPokemon.id)}
             </h1>
             <div className="inline-grid w-48 grid-cols-2 flex-row gap-2 px-2">
@@ -134,49 +135,55 @@ export const PokemonDetails: React.FC = () => {
 
         {/* TabView Info */}
         <section className="absolute z-30 -mt-9 h-full w-full rounded-[2.5rem] bg-white shadow-2xl">
-          <div className="mx-4 mt-9 flex">
-            {/* <div className="flex flex-row gap-3">
-              <h1>About</h1>
-              <h1>Base Stats</h1>
-              <h1>Evolution</h1>
-              <h1>Moves</h1>
-            </div> */}
+          <div className="mx-4 mt-9">
             <TabView>
-              <TabPanel header="Header I">
-                <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </p>
+              <TabPanel header="About">
+                <section className="inline-grid w-full grid-cols-12 flex-col gap-y-1 font-semibold">
+                  <h1 className="col-span-3 opacity-60">Species</h1>
+                  <div className="col-span-9 flex flex-row">
+                    {selectedPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonegggroups.map(
+                      (eggGroup, index) => (
+                        <h2
+                          className="capitalize"
+                          key={eggGroup.pokemon_v2_egggroup.name}
+                        >
+                          {`${index != 0 ? ", " : ""}${eggGroup.pokemon_v2_egggroup.name}`}
+                        </h2>
+                      ),
+                    )}
+                  </div>
+
+                  <h1 className="col-span-3 opacity-60">Height</h1>
+                  <h1 className="col-span-9">{`${getHeightInFeets(selectedPokemon.height * 0.328084)} (${selectedPokemon.height * 10}cm)`}</h1>
+
+                  <h1 className="col-span-3 opacity-60">Weigth</h1>
+                  <h1 className="col-span-9">{`${getWeightInHectograms(selectedPokemon.weight)} (${selectedPokemon.height / 10}kg)`}</h1>
+
+                  <h1 className="col-span-3 opacity-60">Abilities</h1>
+                  <div className="col-span-9 flex flex-row">
+                    {selectedPokemon.pokemon_v2_pokemonabilities.map(
+                      (abilities, index) => (
+                        <h2
+                          className="capitalize"
+                          key={abilities.pokemon_v2_ability.name}
+                        >
+                          {`${index != 0 ? ", " : ""}${abilities.pokemon_v2_ability.name}`}
+                        </h2>
+                      ),
+                    )}
+                  </div>
+                </section>
+                <h1 className="mt-2 text-xl font-bold">Breeding</h1>
+                <section className="inline-grid grid-cols-9 flex-col gap-y-1"></section>
               </TabPanel>
-              <TabPanel header="Header II">
-                <p className="m-0">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                  accusantium doloremque laudantium, totam rem aperiam, eaque
-                  ipsa quae ab illo inventore veritatis et quasi architecto
-                  beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
-                  quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                  consequuntur magni dolores eos qui ratione voluptatem sequi
-                  nesciunt. Consectetur, adipisci velit, sed quia non numquam
-                  eius modi.
-                </p>
+              <TabPanel header="Base Stats">
+                <p className="m-0"></p>
               </TabPanel>
-              <TabPanel header="Header III">
-                <p className="m-0">
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                  blanditiis praesentium voluptatum deleniti atque corrupti quos
-                  dolores et quas molestias excepturi sint occaecati cupiditate
-                  non provident, similique sunt in culpa qui officia deserunt
-                  mollitia animi, id est laborum et dolorum fuga. Et harum
-                  quidem rerum facilis est et expedita distinctio. Nam libero
-                  tempore, cum soluta nobis est eligendi optio cumque nihil
-                  impedit quo minus.
-                </p>
+              <TabPanel header="Evolution">
+                <p className="m-0"></p>
+              </TabPanel>
+              <TabPanel header="Moves">
+                <p className="m-0"></p>
               </TabPanel>
             </TabView>
           </div>
@@ -209,4 +216,13 @@ async function requestPokemonDetails(
   const data = mockePokeDetails;
   // const data = await response.json();
   return data;
+}
+
+function getHeightInFeets(heightDec: number): string {
+  const feets = Math.floor(heightDec);
+  const inches = ((heightDec - feets) * 12).toFixed(1);
+  return feets + "'" + inches + `"`;
+}
+function getWeightInHectograms(weight: number): string {
+  return `${(weight * 0.22).toFixed(1)} lbs"`;
 }
