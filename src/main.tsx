@@ -55,8 +55,6 @@ const value = {
   },
 };
 
-//My Design System with Tailwind
-
 // loaders
 import Pokemon, { loader as pokedexLoader } from "./routes/pokemon";
 
@@ -64,12 +62,12 @@ const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: (
+      element: <ErrorPage />,
+      errorElement: (
         <PrimeReactProvider value={value}>
           <Root />
         </PrimeReactProvider>
       ),
-      errorElement: <ErrorPage />,
       children: [
         {
           path: "pokemon/",

@@ -1,10 +1,7 @@
 import { Outlet } from "react-router-dom";
-// import { useState } from "react";
 import Header from "../components/Header";
 
 export default function Root() {
-  // const [value, setValue] = useState("");
-
   return (
     <>
       <div className="flex h-screen flex-row">
