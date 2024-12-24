@@ -1,7 +1,21 @@
+import { SetStateAction, useState } from "react";
 import PokeIcon from "../assets/PokeIcon";
 import SearchIcon from "../assets/SearchIcon";
 
 export function HeaderNav({}) {
+  const [query, setQuery] = useState("");
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log({ query });
+  };
+
+  const handleChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setQuery(event.target.value);
+  };
+
   return (
     <nav
       className="flex h-2/5 flex-col-reverse rounded-b-3xl"
@@ -13,11 +27,15 @@ export function HeaderNav({}) {
         <div className="ms-4">
           <SearchIcon></SearchIcon>
         </div>
-        <input
-          type="text"
-          className="m-2 me-4 w-full appearance-none bg-transparent font-mono text-slate-700 placeholder:text-slate-400 focus:outline-none"
-          placeholder="Bulbasaur, 1, Grass"
-        ></input>
+        <form onSubmit={handleSubmit}>
+          <input
+            onChange={handleChange}
+            name="querey"
+            type="text"
+            className="m-2 me-4 w-full appearance-none bg-transparent font-mono text-slate-700 placeholder:text-slate-400 focus:outline-none"
+            placeholder="Bulbasaur, 1, Grass"
+          ></input>
+        </form>
       </div>
 
       <div className="relative flex h-full w-full flex-row-reverse overflow-hidden">

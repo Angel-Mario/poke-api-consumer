@@ -1,15 +1,19 @@
 import "./index.css";
 import { createRoot } from "react-dom/client";
-import { PrimeReactProvider } from "primereact/api";
 
 // Router Pages
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PokemonDetails from "./components/pokedex/PokemonDetails";
+
+//Tailwind
+import { PrimeReactProvider } from "primereact/api";
 import Tailwind from "primereact/passthrough/tailwind";
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
+
+//Zustand
 
 const TailwindDesign = Tailwind;
 (TailwindDesign.inputtext = {
@@ -62,12 +66,12 @@ const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <ErrorPage />,
-      errorElement: (
+      element: (
         <PrimeReactProvider value={value}>
           <Root />
         </PrimeReactProvider>
       ),
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "pokemon/",

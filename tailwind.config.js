@@ -11,6 +11,7 @@ export default {
       screens: {
         smaller: "475px",
         small: "525px",
+        intermed: "745px",
         medium: "875px",
         navBar: "990px",
         mlarge: "1200px",
