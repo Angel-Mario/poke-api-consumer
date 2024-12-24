@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { PokemonListItemDetails } from "./types";
 import { POKETYPES } from "../../utils/consts";
 import { mockePokeDetails } from "../../utils/mocks";
@@ -18,6 +18,8 @@ export const PokemonDetails: React.FC = () => {
   const selectedPokemon = selectedPokemonAll.data.pokemon_v2_pokemon[0];
 
   const [isFavorite, setFavorite] = useState(false);
+
+  window.matchMedia("(prefers-color-scheme: light)");
 
   return (
     <>
@@ -49,25 +51,27 @@ export const PokemonDetails: React.FC = () => {
         >
           <section className="relative z-10 mx-3 flex h-1/6 flex-row pt-5">
             <div className="p-ripple ms-1 w-11 rounded-2xl">
-              <Ripple
-                pt={{
-                  root: {
-                    style: {
-                      backgroundColor:
-                        cardButton[
-                          POKETYPES[
-                            selectedPokemon.pokemon_v2_pokemontypes[0].type_id
-                          ]
-                        ],
+              <Link relative={"path"} to={".."}>
+                <Ripple
+                  pt={{
+                    root: {
+                      style: {
+                        backgroundColor:
+                          cardButton[
+                            POKETYPES[
+                              selectedPokemon.pokemon_v2_pokemontypes[0].type_id
+                            ]
+                          ],
+                      },
                     },
-                  },
-                }}
-              />
-              <BackIcon stroke="#FFFFFF"></BackIcon>
+                  }}
+                />
+                <BackIcon stroke="#FFFFFF"></BackIcon>
+              </Link>
             </div>
             <div className="" style={{ width: "-webkit-fill-available" }}></div>
             <div
-              className="me-3 mt-1 w-8 scale-y-95"
+              className="me-3 mt-1 w-8 scale-y-95 cursor-pointer"
               onClick={() => setFavorite(!isFavorite)}
             >
               <HeartIcon
@@ -127,7 +131,9 @@ export const PokemonDetails: React.FC = () => {
             }}
           ></div>
         </nav>
-        <section className="absolute z-30 -mt-9 h-full w-full rounded-[2.5rem] bg-white shadow-2xl shadow-black">
+
+        {/* TabView Info */}
+        <section className="absolute z-30 -mt-9 h-full w-full rounded-[2.5rem] bg-white shadow-2xl">
           <div className="mx-4 mt-9 flex">
             {/* <div className="flex flex-row gap-3">
               <h1>About</h1>

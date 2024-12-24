@@ -60,6 +60,7 @@ function Pokemon() {
         <Dialog
           pt={{}}
           unstyled
+
           dismissableMask
           modal
           minX={0}

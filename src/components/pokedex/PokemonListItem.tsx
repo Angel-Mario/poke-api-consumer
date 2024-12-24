@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { PokemonTag } from "./PokemonTag";
 
-export interface PokemonListItemFunc {
+interface PokemonListItemFunc {
   pokemonListItemData: PokemonListItemData;
   dialogManager: () => void;
 }
@@ -19,7 +19,7 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
 }) => {
   return (
     <li
-      className="p-ripple z-30 h-auto w-40 cursor-pointer rounded-2xl shadow-sm shadow-black hover:-translate-y-1 [@media(min-width:1200px)]:w-48"
+      className="p-ripple mlarge:w-48 z-30 h-auto w-40 cursor-pointer rounded-2xl shadow-sm shadow-black hover:-translate-y-1 2xl:w-56"
       key={pokemonListItemData.id}
       onClick={() => dialogManager()}
       style={{
@@ -48,10 +48,10 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
           }}
         />
         <div className="flex flex-row justify-items-center">
-          <h1 className="ms-2 w-8/12 select-none py-1 text-lg font-bold capitalize text-white sm:text-xl">
+          <h1 className="ms-2 w-8/12 select-none py-1 text-lg font-bold capitalize text-white sm:text-xl 2xl:text-2xl">
             {pokemonListItemData.name}
           </h1>
-          <h1 className="w-4/12 select-none justify-center text-center text-lg font-bold text-gray-500 opacity-40">
+          <h1 className="w-4/12 select-none justify-center text-center text-base font-bold text-gray-500 opacity-40 medium:text-lg 2xl:text-xl">
             #{getId(pokemonListItemData.id)}
           </h1>
         </div>
@@ -83,7 +83,7 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
               }
             ></PokemonTag>
           </div>
-          <div className="absolute flex w-[6.5rem] translate-x-20 overflow-hidden [@media(min-width:1200px)]:w-[8.5rem]">
+          <div className="mlarge:w-[8.5rem] absolute flex w-[6.5rem] translate-x-20 overflow-hidden 2xl:w-[10rem]">
             <PokeIcon
               stroke="#352c32"
               strokeOpacity={0.5}
@@ -98,7 +98,7 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
             ></PokeIcon>
           </div>
           <img
-            className="pointer-events-none z-0 col-span-8 h-20 w-20 select-none [@media(min-width:1200px)]:h-28 [@media(min-width:1200px)]:w-28"
+            className="mlarge:h-28 mlarge:w-28 pointer-events-none z-0 col-span-8 h-20 w-20 select-none 2xl:h-36 2xl:w-36"
             src={getRoute(pokemonListItemData.id)}
             alt={pokemonListItemData.name}
           />
