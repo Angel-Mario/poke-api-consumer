@@ -1,9 +1,9 @@
 // import reactLogo from './assets/react.svg'
 import { mockPoke } from "../utils/mocks.ts";
-import { Link, LoaderFunctionArgs, Outlet } from "react-router-dom";
+import { LoaderFunctionArgs, Outlet, useLocation } from "react-router-dom";
 
 import { Dialog } from "primereact/dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getPokemonDetails } from "../components/pokedex/PokemonDetails.tsx";
 import { PokemonList } from "../components/pokedex/PokemonList.tsx";
 import { PokemonListItemData } from "../components/pokedex/types";
@@ -32,9 +32,16 @@ function Pokemon() {
       ],
     });
   });
-
+  //hooks
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dialogManager = () => setDialogVisible(!isDialogVisible);
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location.pathname);
+    if (location.pathname.endsWith("pokemon") && isDialogVisible)
+      setDialogVisible(false);
+  }, [location]);
 
   return (
     <>
@@ -51,11 +58,13 @@ function Pokemon() {
         {/* < onClick={() => setVisible(true)} /> */}
 
         <Dialog
+          pt={{}}
           unstyled
+          dismissableMask
           modal
           minX={0}
           minY={0}
-          position="top-left"
+          position="top"
           visible={isDialogVisible}
           style={{ width: "30vw" }}
           draggable={false}
@@ -66,17 +75,17 @@ function Pokemon() {
           }}
           content={
             <>
-              <Link to={""}>
+              {/* <Link to={""}>
                 <div
                   className="absolute z-20 h-screen w-screen bg-gray-950 opacity-70"
                   onClick={() => setDialogVisible(false)}
                 ></div>
-              </Link>
-              <div className="flex h-screen w-screen justify-center">
-                <article className="absolute z-50 h-screen w-screen sm:w-[30rem]">
-                  <Outlet></Outlet>
-                </article>
+              </Link> */}
+              {/* <div className="flex h-screen w-screen justify-center"> */}
+              <div className="absolute z-50 h-screen w-screen overflow-hidden sm:w-[30rem] sm:rounded-3xl">
+                <Outlet></Outlet>
               </div>
+              {/* </div> */}
             </>
           }
         ></Dialog>
