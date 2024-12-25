@@ -5,6 +5,7 @@ interface PokemonListItemState {
   pokemons: PokemonListItemData[];
   filter: string;
   setList: (by: PokemonListItemData[]) => void;
+  setFilter: (by: string) => void;
 }
 
 export const usePokemonListItemStore = create<PokemonListItemState>()(
@@ -12,7 +13,7 @@ export const usePokemonListItemStore = create<PokemonListItemState>()(
     pokemons: [],
     filter: "",
     setList: (by: PokemonListItemData[]) =>
-      set((state) => ({ pokemons: state.pokemons })),
-    setFilter: (by: string) => set((state) => ({ filter: state.filter })),
+      set((prevState) => ({ pokemons: by })),
+    setFilter: (by: string) => set((prevState) => ({ filter: by })),
   }),
 );

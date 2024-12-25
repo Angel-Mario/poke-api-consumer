@@ -43,6 +43,79 @@ export const POKETYPES: { [key: number]: string } = {
   1002: "shadow",
 };
 
+const rawData = [
+  [1, 1, 1, 1, 1, 0.5, 1, 0, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [2, 1, 0.5, 0.5, 1, 2, 0.5, 0, 2, 1, 1, 1, 1, 0.5, 2, 1, 2, 0.5],
+  [1, 2, 1, 1, 1, 0.5, 2, 1, 0.5, 1, 1, 2, 0.5, 1, 1, 1, 1, 1],
+  [1, 1, 1, 0.5, 0.5, 0.5, 1, 0.5, 0, 1, 1, 2, 1, 1, 1, 1, 1, 2],
+  [1, 1, 0, 2, 1, 2, 0.5, 1, 2, 2, 1, 0.5, 2, 1, 1, 1, 1, 1],
+  [1, 0.5, 2, 1, 0.5, 1, 2, 1, 0.5, 2, 1, 1, 1, 1, 2, 1, 1, 1],
+  [1, 0.5, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 0.5, 1, 2, 1, 2, 1, 1, 2, 0.5],
+  [0, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 0.5, 1],
+  [1, 1, 1, 1, 1, 2, 1, 1, 0.5, 0.5, 0.5, 1, 0.5, 1, 2, 1, 1, 2],
+  [1, 1, 1, 1, 1, 0.5, 2, 1, 2, 0.5, 0.5, 2, 1, 1, 2, 0.5, 1, 1],
+  [1, 1, 1, 1, 2, 2, 1, 1, 1, 2, 0.5, 0.5, 1, 1, 1, 0.5, 1, 1],
+  [1, 1, 0.5, 0.5, 2, 2, 0.5, 1, 0.5, 0.5, 2, 0.5, 1, 1, 1, 0.5, 1, 1],
+  [1, 1, 2, 1, 0, 1, 1, 1, 1, 1, 2, 0.5, 0.5, 1, 1, 0.5, 1, 1],
+  [1, 2, 1, 2, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 0.5, 1, 1, 0, 1],
+  [1, 1, 2, 1, 2, 1, 1, 1, 0.5, 0.5, 0.5, 2, 1, 1, 0.5, 2, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 1, 1, 2, 1, 0],
+  [1, 0.5, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 0.5, 0.5],
+  [1, 2, 1, 0.5, 1, 1, 1, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 2, 2, 1],
+];
+
+// function to get the effectiveness of one or two types:
+export const getEffectiveness = (pokemontype: number, against: number) => {
+  return rawData[against][pokemontype];
+};
+
+// function to get the effectiveness of one or two types against all types:
+export const getEffectivenessAgainstType = (
+  selectedType: number,
+  pokemonType1: number,
+  pokemonType2: number,
+) => {
+  if (pokemonType2 == -1) {
+    // Just One type if there are two selected types
+    console.log(
+      selectedType,
+      pokemonType1,
+      pokemonType2,
+      "efectividad ",
+      getEffectiveness(pokemonType1, selectedType),
+    );
+    return getEffectiveness(pokemonType1, selectedType);
+  } else {
+    // Multiply if there are two selected types
+    return (
+      getEffectiveness(pokemonType1, selectedType) *
+      getEffectiveness(pokemonType2, selectedType)
+    );
+  }
+};
+
+export function getDamageName(result: number): string {
+  if (result == 1) {
+    return "dmg_normal";
+  }
+  if (result < 1) {
+    return "dmg_resist";
+  }
+  if (result < 0.5) {
+    return "dmg_resist2";
+  }
+  if (result == 0) {
+    return "dmg_immune";
+  }
+  if (result > 1) {
+    return "dmg_weak";
+  }
+  if (result > 2) {
+    return "dmg_weak2";
+  }
+  return "";
+}
+
 export const HeadArticles: {
   data: { children: string; theme: string; button: string; link: string }[];
 } = {
@@ -86,8 +159,6 @@ export const HeadArticles: {
   ],
 };
 
-// '{"query":"{\\n  pokemon_v2_pokemon(order_by: {id: asc}) {\\n    id\\n    name\\n    pokemon_v2_pokemontypes {\\n      pokemon_v2_type {\\n        id\\n      }\\n    }\\n  }\\n}","variables":null}';
-
 // query MyQuery($_eq: Int = 1) {
 //   pokemon_v2_pokemon(where: {id: {_eq: $_eq}}) {
 //     id
@@ -129,6 +200,9 @@ export const HeadArticles: {
 //         id
 //       }
 //     }
+//     pokemon_v2_pokemontypes {
+//       type_id
+//     }
 //   }
 // }
 
@@ -148,12 +222,21 @@ export const HeadArticles: {
 //         pokemon_v2_egggroup {
 //           name
 //         }
+//         pokemon_v2_pokemonspecy {
+//           id
+//         }
 //       }
 //       pokemon_v2_evolutionchain {
 //         pokemon_v2_pokemonspecies {
 //           name
 //           id
 //         }
+//       }
+//       pokemon_v2_pokemonspeciesflavortexts(where: {pokemon_v2_language: {name: {_eq: "en"}}}, limit: 1) {
+//         flavor_text
+//       }
+//       pokemon_v2_pokemonspeciesnames(where: {language_id: {_eq: 9}}) {
+//         genus
 //       }
 //     }
 //     pokemon_v2_pokemoncries {

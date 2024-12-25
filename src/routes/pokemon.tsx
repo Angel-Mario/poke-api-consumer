@@ -1,16 +1,22 @@
 import { LoaderFunctionArgs, Outlet, useLocation } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getPokemonDetails } from "../components/pokedex/PokemonDetails.tsx";
 import { PokemonList } from "../components/pokedex/PokemonList.tsx";
-import { usePokemonListItemData } from "../hooks/usePokemonListItemData.ts";
+import { getPokemonListItemData } from "../hooks/getPokemonListItemData.ts";
+import { usePokemonListItemStore } from "../utils/store.ts";
 
 export default function Pokemon() {
-  const { pokemonListItem } = usePokemonListItemData();
+  const setList = usePokemonListItemStore((state) => state.setList);
+
   //hooks
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dialogManager = () => setDialogVisible(!isDialogVisible);
   const location = useLocation();
+
+  useEffect(() => {
+    setList(getPokemonListItemData());
+  }, []);
 
   useEffect(() => {
     console.log(location.pathname);

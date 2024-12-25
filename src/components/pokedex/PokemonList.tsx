@@ -6,7 +6,8 @@ interface Props {
 }
 
 export const PokemonList: React.FC<Props> = ({ dialog }) => {
-  const { pokemons, filter } = usePokemonListItemStore();
+  const pokemons = usePokemonListItemStore((state) => state.pokemons);
+  const filter = usePokemonListItemStore((state) => state.filter);
 
   return (
     <>
@@ -17,14 +18,14 @@ export const PokemonList: React.FC<Props> = ({ dialog }) => {
             pokemon.id.toString().includes(filter) ||
             pokemon.name.includes(filter)
           ) {
+            return (
+              <PokemonListItem
+                pokemonListItemData={pokemon}
+                key={pokemon.id}
+                dialogManager={dialog}
+              ></PokemonListItem>
+            );
           }
-          return (
-            <PokemonListItem
-              pokemonListItemData={pokemon}
-              key={pokemon.id}
-              dialogManager={dialog}
-            ></PokemonListItem>
-          );
         })}
       </ul>
     </>

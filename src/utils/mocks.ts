@@ -428,10 +428,16 @@ export const mockePokeDetails = {
               pokemon_v2_egggroup: {
                 name: "monster",
               },
+              pokemon_v2_pokemonspecy: {
+                id: 1,
+              },
             },
             {
               pokemon_v2_egggroup: {
                 name: "plant",
+              },
+              pokemon_v2_pokemonspecy: {
+                id: 1,
               },
             },
           ],
@@ -451,6 +457,17 @@ export const mockePokeDetails = {
               },
             ],
           },
+          pokemon_v2_pokemonspeciesflavortexts: [
+            {
+              flavor_text:
+                "A strange seed was\nplanted on its\nback at birth.\fThe plant sprouts\nand grows with\nthis POKéMON.",
+            },
+          ],
+          pokemon_v2_pokemonspeciesnames: [
+            {
+              genus: "Seed Pokémon",
+            },
+          ],
         },
         pokemon_v2_pokemoncries: [
           {
@@ -507,10 +524,18 @@ export const mockePokeDetails = {
           },
           {
             pokemon_v2_move: {
-              name: "tackle",
-              power: 40,
-              pp: 35,
-              id: 33,
+              name: "growl",
+              power: null,
+              pp: 40,
+              id: 45,
+            },
+          },
+          {
+            pokemon_v2_move: {
+              name: "leech-seed",
+              power: null,
+              pp: 10,
+              id: 73,
             },
           },
         ],

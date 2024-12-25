@@ -18,3 +18,21 @@ export const getId = (id: number) => {
     return id;
   }
 };
+
+export function getHeightInFeets(heightDec: number): string {
+  const feets = Math.floor(heightDec);
+  const inches = ((heightDec - feets) * 12).toFixed(1);
+  return feets + "'" + inches + `"`;
+}
+export function getWeightInHectograms(weight: number): string {
+  return `${(weight * 0.22).toFixed(1)} lbs`;
+}
+
+export function getBarColorIndividual(value: number): string {
+  if (value < 40) {
+    return "#ff0000";
+  } else if (value < 60) {
+    return "#ff692d";
+  }
+  return "#00aa13";
+}

@@ -1,7 +1,7 @@
 import { PokemonListItemData } from "../components/pokedex/types";
 import { mockPoke } from "../utils/mocks";
 
-export function usePokemonListItemData() {
+export function getPokemonListItemData() {
   const pokemonListItem: PokemonListItemData[] = [];
 
   mockPoke.data.pokemon_v2_pokemon.map((pokemon) => {
@@ -25,5 +25,5 @@ export function usePokemonListItemData() {
       ],
     });
   });
-  return { pokemonListItem };
+  return pokemonListItem;
 }

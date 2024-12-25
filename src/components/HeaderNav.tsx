@@ -1,13 +1,22 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import PokeIcon from "../assets/PokeIcon";
 import SearchIcon from "../assets/SearchIcon";
+import { usePokemonListItemStore } from "../utils/store";
+import { useDebounce } from "@uidotdev/usehooks";
 
 export function HeaderNav({}) {
   const [query, setQuery] = useState("");
+  const setFilter = usePokemonListItemStore((state) => state.setFilter);
+  const debouncedSearchTerm = useDebounce(query, 250);
+
+  useEffect(() => {
+    setFilter(query);
+  }, [debouncedSearchTerm]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     console.log({ query });
+    setFilter(query);
   };
 
   const handleChange = (event: {
@@ -23,7 +32,7 @@ export function HeaderNav({}) {
         background: "#fa6555",
       }}
     >
-      <div className="m-3 flex flex-row items-center rounded-full bg-white">
+      <div className="m-3 flex flex-row items-center overflow-hidden rounded-full bg-white">
         <div className="ms-4">
           <SearchIcon></SearchIcon>
         </div>

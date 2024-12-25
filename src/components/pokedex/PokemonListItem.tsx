@@ -5,8 +5,10 @@ import { PokemonListItemData } from "./types";
 import { getId, getRoute } from "../../utils/utils.functions";
 import PokeIcon from "../../assets/PokeIcon";
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import { PokemonTag } from "./PokemonTag";
+import classNames from "classnames";
+// import { Skeleton } from "primereact/skeleton";
 
 interface PokemonListItemFunc {
   pokemonListItemData: PokemonListItemData;
@@ -17,6 +19,8 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
   pokemonListItemData,
   dialogManager,
 }) => {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <li
       className="p-ripple z-30 h-auto w-40 cursor-pointer rounded-2xl shadow-sm shadow-black hover:-translate-y-1 mlarge:w-48 2xl:w-56"
@@ -98,8 +102,13 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
               }
             ></PokeIcon>
           </div>
+          {/* {!loaded && <Skeleton height="28px" borderRadius="16px"></Skeleton>} */}
           <img
-            className="pointer-events-none z-0 col-span-8 h-20 w-20 select-none mlarge:h-28 mlarge:w-28 2xl:h-36 2xl:w-36"
+            onLoad={() => setLoaded(true)}
+            className={classNames(
+              "pointer-events-none z-0 col-span-8 h-20 w-20 select-none mlarge:h-28 mlarge:w-28 2xl:h-36 2xl:w-36",
+              loaded ? `` : "hidden w-0",
+            )}
             src={getRoute(pokemonListItemData.id)}
             alt={pokemonListItemData.name}
           />

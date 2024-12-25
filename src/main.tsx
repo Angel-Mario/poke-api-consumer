@@ -16,15 +16,24 @@ import classNames from "classnames";
 //Zustand
 
 const TailwindDesign = Tailwind;
-(TailwindDesign.inputtext = {
-  root: () => ({
+(TailwindDesign.progressbar = {
+  root: {
     className: classNames(
-      "m-0",
-      "font-sans text-gray-600 border border-gray-300 transition-colors duration-200 appearance-none rounded-lg",
-      "p-3 text-base",
+      "overflow-hidden relative",
+      "border-0 h-1 bg-gray-200 rounded-md dark:bg-gray-800",
     ),
-  }),
+    label: "hidden w-0",
+  },
 }),
+  (TailwindDesign.inputtext = {
+    root: () => ({
+      className: classNames(
+        "m-0",
+        "font-sans text-gray-600 border border-gray-300 transition-colors duration-200 appearance-none rounded-lg",
+        "p-3 text-base",
+      ),
+    }),
+  }),
   (TailwindDesign.panel = {
     header: () => ({
       className: classNames(

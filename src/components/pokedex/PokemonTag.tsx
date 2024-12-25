@@ -1,17 +1,25 @@
 import React from "react";
 import { cardButton } from "../../utils/card-aspects";
 import { POKETYPES } from "../../utils/consts";
+import classNames from "classnames";
 
 interface Props {
   id: number;
   id2: number;
+  rounded?: string;
+  padding?: string;
 }
 
-export const PokemonTag: React.FC<Props> = ({ id, id2 }) => {
+export const PokemonTag: React.FC<Props> = ({
+  id,
+  id2,
+  rounded = "rounded-2xl",
+  padding = "px-1",
+}) => {
   return (
     <>
       <div
-        className="rounded-2xl px-1 capitalize"
+        className={classNames(rounded, padding, "capitalize")}
         style={{
           backgroundColor: cardButton[POKETYPES[id]],
         }}
