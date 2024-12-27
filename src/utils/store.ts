@@ -13,7 +13,7 @@ export const usePokemonListItemStore = create<PokemonListItemState>()(
     pokemons: [],
     filter: "",
     setList: (by: PokemonListItemData[]) =>
-      set((prevState) => ({ pokemons: by })),
-    setFilter: (by: string) => set((prevState) => ({ filter: by })),
+      set((_prevState) => ({ pokemons: by })),
+    setFilter: (by: string) => set((_prevState) => ({ filter: by })),
   }),
 );

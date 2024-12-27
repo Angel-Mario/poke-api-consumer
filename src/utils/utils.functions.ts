@@ -36,3 +36,41 @@ export function getBarColorIndividual(value: number): string {
   }
   return "#00aa13";
 }
+
+export function setPokemonFavorite(id: number = -1): void {
+  const storageString = localStorage.getItem("pokFaves");
+  if (storageString && storageString != "undefined") {
+    let storage = <number[]>JSON.parse(storageString);
+    if (storage) {
+      storage.push(id);
+      localStorage.setItem("pokFaves", JSON.stringify(storage.sort));
+    }
+  } else {
+    localStorage.setItem("pokFaves", JSON.stringify(Array.of(id)));
+  }
+}
+export function unsetPokemonFavorite(id: number = -1) {
+  const storageString = localStorage.getItem("pokFaves");
+  if (storageString && storageString != "undefined") {
+    let storage = <number[]>JSON.parse(storageString);
+    if (storage) {
+      localStorage.setItem(
+        "pokFaves",
+        JSON.stringify(storage.filter((value) => value !== id)),
+      );
+    }
+  }
+}
+export function getIfPokemonFavorite(id: number = -1): boolean {
+  const storageString = localStorage.getItem("pokFaves");
+  if (
+    storageString &&
+    storageString != "undefined" &&
+    storageString.length > 1
+  ) {
+    let storage = <number[]>JSON.parse(storageString);
+    return storage && storage.find((value) => value === id) != undefined;
+  } else {
+    return false;
+  }
+}

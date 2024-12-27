@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { PokemonListItemDetails } from "./types";
 import { getEffectivenessAgainstType, POKETYPES } from "../../utils/consts";
@@ -8,16 +8,21 @@ import {
   getId,
   getRoute,
   getWeightInHectograms,
+  setPokemonFavorite,
+  getIfPokemonFavorite,
+  unsetPokemonFavorite,
 } from "../../utils/utils.functions";
 
 import { cardButton, cardTheme } from "../../utils/card-aspects";
 import { PokemonTag } from "./PokemonTag";
 import PokeIcon from "../../assets/PokeIcon";
 import { TabView, TabPanel } from "primereact/tabview";
+
 import BackIcon from "../../assets/BackIcon";
 import { HeartIcon } from "../../assets/HeartIcon";
 import { Ripple } from "primereact/ripple";
 import { PokemonStatBar } from "./PokemonStatBar";
+import { PokemonEvol } from "./PokemonEvol";
 
 export const PokemonDetails: React.FC = () => {
   const selectedPokemonAll = useLoaderData() as PokemonListItemDetails;
@@ -25,6 +30,20 @@ export const PokemonDetails: React.FC = () => {
   const selectedPokemon = selectedPokemonAll.data.pokemon_v2_pokemon[0];
 
   const [isFavorite, setFavorite] = useState(false);
+
+  useEffect(() => {
+    setFavorite(getIfPokemonFavorite(selectedPokemon.id));
+  }, []);
+
+  function manageHeartClick() {
+    if (isFavorite) {
+      unsetPokemonFavorite(selectedPokemon.id);
+    } else {
+      setPokemonFavorite(selectedPokemon.id);
+    }
+    setFavorite(!isFavorite);
+    console.log("encorazonado");
+  }
 
   return (
     <>
@@ -82,6 +101,7 @@ export const PokemonDetails: React.FC = () => {
               <HeartIcon
                 props={{ stroke: "#FFFFFF" }}
                 favorite={isFavorite}
+                manageClick={manageHeartClick}
               ></HeartIcon>
             </div>
           </section>
@@ -137,171 +157,202 @@ export const PokemonDetails: React.FC = () => {
           ></div>
         </nav>
 
-        <section className="absolute z-30 -mt-9 h-full w-full rounded-[2.5rem] bg-white shadow-2xl">
-          <div className="mx-4 mt-8">
-            <TabView>
+        <section
+          className="absolute z-30 -mt-9 w-full rounded-t-[2.5rem] bg-white shadow-2xl sm:rounded-b-[2.5rem]"
+          style={{ height: "-webkit-fill-available" }}
+        >
+          <div
+            className="mx-4 mb-3 mt-8 overflow-hidden"
+            style={{ height: "-webkit-fill-available" }}
+          >
+            <TabView className="h-full">
               {/* TabPanel About */}
-              <TabPanel header="About">
-                <h1 className="mb-2 text-xl font-bold">Description</h1>
-                <h2 className="mb-1 text-justify font-semibold">
-                  {selectedPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0].flavor_text
-                    .replace(`\f`, " ")
-                    .replace(`\n`, " ")}
-                </h2>
-                <h1 className="mb-1 text-xl font-bold">Data</h1>
-                <section className="inline-grid w-full grid-cols-12 flex-col gap-y-1 font-semibold">
-                  <h2 className="col-span-3 opacity-60">Species</h2>
-                  <h2 className="col-span-9">
-                    {
-                      selectedPokemon.pokemon_v2_pokemonspecy
-                        .pokemon_v2_pokemonspeciesnames[0].genus
-                    }
+              <TabPanel
+                header="About"
+                className="pb-16"
+                style={{
+                  height: "-webkit-fill-available",
+                }}
+              >
+                <article className="flex h-full flex-col overflow-x-hidden">
+                  <h1 className="mb-2 text-xl font-bold capitalize">
+                    About {selectedPokemon.name}
+                  </h1>
+                  <h2 className="mb-1 text-justify font-semibold">
+                    {selectedPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0].flavor_text
+                      .replace(`\f`, " ")
+                      .replace(`\n`, " ")}
                   </h2>
+                  <h1 className="mb-1 text-xl font-bold">Data</h1>
+                  <section className="inline-grid w-full grid-cols-12 flex-col gap-y-1 font-semibold">
+                    <h2 className="col-span-3 opacity-60">Species</h2>
+                    <h2 className="col-span-9">
+                      {
+                        selectedPokemon.pokemon_v2_pokemonspecy
+                          .pokemon_v2_pokemonspeciesnames[0].genus
+                      }
+                    </h2>
 
-                  <h2 className="col-span-3 opacity-60">Height</h2>
-                  <h2 className="col-span-9">{`${getHeightInFeets(selectedPokemon.height * 0.328084)} (${selectedPokemon.height * 10}cm)`}</h2>
+                    <h2 className="col-span-3 opacity-60">Height</h2>
+                    <h2 className="col-span-9">{`${getHeightInFeets(selectedPokemon.height * 0.328084)} (${selectedPokemon.height * 10}cm)`}</h2>
 
-                  <h2 className="col-span-3 opacity-60">Weigth</h2>
-                  <h2 className="col-span-9">{`${getWeightInHectograms(selectedPokemon.weight)} (${selectedPokemon.height / 10}kg)`}</h2>
+                    <h2 className="col-span-3 opacity-60">Weigth</h2>
+                    <h2 className="col-span-9">{`${getWeightInHectograms(selectedPokemon.weight)} (${selectedPokemon.height / 10}kg)`}</h2>
 
-                  <h2 className="col-span-3 opacity-60">Abilities</h2>
-                  <div className="col-span-9 flex flex-row">
-                    {selectedPokemon.pokemon_v2_pokemonabilities.map(
-                      (abilities, index) => (
-                        <h2
-                          className="capitalize"
-                          key={abilities.pokemon_v2_ability.name}
-                        >
-                          {`${index != 0 ? ", " : ""}${abilities.pokemon_v2_ability.name}`}
-                        </h2>
-                      ),
-                    )}
-                  </div>
-                </section>
-                <h1 className="mb-2 mt-3 text-xl font-bold">Breeding</h1>
-                <section className="inline-grid w-full grid-cols-12 flex-col gap-x-1 gap-y-1 font-semibold">
-                  <h2 className="col-span-3 opacity-60">
-                    Egg Group
-                    {`${selectedPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonegggroups.length > 1 ? "s" : ""} `}
-                  </h2>
-                  <div className="col-span-9 flex flex-row">
-                    {selectedPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonegggroups.map(
-                      (eggGroup, index) => (
-                        <h2
-                          className="capitalize"
-                          key={eggGroup.pokemon_v2_egggroup.name}
-                        >
-                          {`${index != 0 ? ", " : ""}${eggGroup.pokemon_v2_egggroup.name}`}
-                        </h2>
-                      ),
-                    )}
-                  </div>
-                </section>
+                    <h2 className="col-span-3 opacity-60">Abilities</h2>
+                    <div className="col-span-9 flex flex-row">
+                      {selectedPokemon.pokemon_v2_pokemonabilities.map(
+                        (abilities, index) => (
+                          <h2
+                            className="capitalize"
+                            key={abilities.pokemon_v2_ability.name}
+                          >
+                            {`${index != 0 ? ", " : ""}${abilities.pokemon_v2_ability.name}`}
+                          </h2>
+                        ),
+                      )}
+                    </div>
+                  </section>
+                  <h1 className="mb-2 mt-3 text-xl font-bold">Breeding</h1>
+                  <section className="inline-grid w-full grid-cols-12 flex-col gap-x-1 gap-y-1 font-semibold">
+                    <h2 className="col-span-3 opacity-60">
+                      Egg Group
+                      {`${selectedPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonegggroups.length > 1 ? "s" : ""} `}
+                    </h2>
+                    <div className="col-span-9 flex flex-row">
+                      {selectedPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonegggroups.map(
+                        (eggGroup, index) => (
+                          <h2
+                            className="capitalize"
+                            key={eggGroup.pokemon_v2_egggroup.name}
+                          >
+                            {`${index != 0 ? ", " : ""}${eggGroup.pokemon_v2_egggroup.name}`}
+                          </h2>
+                        ),
+                      )}
+                    </div>
+                  </section>
+                </article>
               </TabPanel>
               {/* TabPanel Stats */}
-              <TabPanel header="Base Stats">
-                <section className="inline-grid w-full grid-cols-12 flex-col gap-y-1 font-semibold">
-                  <PokemonStatBar
-                    base_stat={
-                      selectedPokemon.pokemon_v2_pokemonstats[0].base_stat
-                    }
-                    text="HP"
-                    total_stats={false}
-                  ></PokemonStatBar>
-                  <PokemonStatBar
-                    base_stat={
-                      selectedPokemon.pokemon_v2_pokemonstats[1].base_stat
-                    }
-                    text="Attack"
-                    total_stats={false}
-                  ></PokemonStatBar>
-                  <PokemonStatBar
-                    base_stat={
-                      selectedPokemon.pokemon_v2_pokemonstats[2].base_stat
-                    }
-                    text="Defense"
-                    total_stats={false}
-                  ></PokemonStatBar>
-                  <PokemonStatBar
-                    base_stat={
-                      selectedPokemon.pokemon_v2_pokemonstats[3].base_stat
-                    }
-                    text="Sp. Attack"
-                    total_stats={false}
-                  ></PokemonStatBar>
-                  <PokemonStatBar
-                    base_stat={
-                      selectedPokemon.pokemon_v2_pokemonstats[4].base_stat
-                    }
-                    text="Sp. Defense"
-                    total_stats={false}
-                  ></PokemonStatBar>
-                  <PokemonStatBar
-                    base_stat={
-                      selectedPokemon.pokemon_v2_pokemonstats[5].base_stat
-                    }
-                    text="Speed"
-                    total_stats={false}
-                  ></PokemonStatBar>
-                  <PokemonStatBar
-                    base_stat={((): number => {
-                      let value = 0;
-                      selectedPokemon.pokemon_v2_pokemonstats.forEach(
-                        (valueTemp) => (value += valueTemp.base_stat),
-                      );
-                      return value;
-                    })()}
-                    text="Total"
-                    total_stats={true}
-                  ></PokemonStatBar>
-                </section>
-                <h1 className="mb-1 mt-3 text-xl font-bold">Type defenses</h1>
-                <div className="mb-1 flex flex-row text-justify font-semibold">
-                  <h2>The effectiveness of each type on </h2>
-                  <h2 className="ms-1 capitalize">{selectedPokemon.name}</h2>
-                </div>
-                <section className="mt-1 inline-grid w-full grid-cols-3 flex-col gap-y-2 font-semibold">
-                  {Object.values(cardTheme)
-                    .slice(0, 18)
-                    .map((_theme, index) => (
-                      <div
-                        className="inline-grid grid-cols-3 flex-row gap-x-1"
-                        key={index}
-                      >
-                        <div className="col-span-2">
-                          <PokemonTag
-                            rounded="rounded-md"
-                            id={index + 1}
-                            id2={index + 1}
-                          ></PokemonTag>
+              <TabPanel
+                header="Base Stats"
+                className="pb-16"
+                style={{
+                  height: "-webkit-fill-available",
+                }}
+              >
+                <article className="flex h-full flex-col overflow-x-hidden">
+                  <section className="inline-grid w-full grid-cols-12 flex-col gap-y-1 font-semibold">
+                    <PokemonStatBar
+                      base_stat={
+                        selectedPokemon.pokemon_v2_pokemonstats[0].base_stat
+                      }
+                      text="HP"
+                      total_stats={false}
+                    ></PokemonStatBar>
+                    <PokemonStatBar
+                      base_stat={
+                        selectedPokemon.pokemon_v2_pokemonstats[1].base_stat
+                      }
+                      text="Attack"
+                      total_stats={false}
+                    ></PokemonStatBar>
+                    <PokemonStatBar
+                      base_stat={
+                        selectedPokemon.pokemon_v2_pokemonstats[2].base_stat
+                      }
+                      text="Defense"
+                      total_stats={false}
+                    ></PokemonStatBar>
+                    <PokemonStatBar
+                      base_stat={
+                        selectedPokemon.pokemon_v2_pokemonstats[3].base_stat
+                      }
+                      text="Sp. Attack"
+                      total_stats={false}
+                    ></PokemonStatBar>
+                    <PokemonStatBar
+                      base_stat={
+                        selectedPokemon.pokemon_v2_pokemonstats[4].base_stat
+                      }
+                      text="Sp. Defense"
+                      total_stats={false}
+                    ></PokemonStatBar>
+                    <PokemonStatBar
+                      base_stat={
+                        selectedPokemon.pokemon_v2_pokemonstats[5].base_stat
+                      }
+                      text="Speed"
+                      total_stats={false}
+                    ></PokemonStatBar>
+                    <PokemonStatBar
+                      base_stat={((): number => {
+                        let value = 0;
+                        selectedPokemon.pokemon_v2_pokemonstats.forEach(
+                          (valueTemp) => (value += valueTemp.base_stat),
+                        );
+                        return value;
+                      })()}
+                      text="Total"
+                      total_stats={true}
+                    ></PokemonStatBar>
+                  </section>
+                  <h1 className="mb-1 mt-3 text-xl font-bold">Type defenses</h1>
+                  <div className="mb-1 flex flex-row text-justify font-semibold">
+                    <h2>The effectiveness of each type on </h2>
+                    <h2 className="ms-1 capitalize">{selectedPokemon.name}.</h2>
+                  </div>
+                  <section className="mb-2 mt-1 inline-grid w-full grid-cols-3 flex-col gap-y-2 font-semibold">
+                    {Object.values(cardTheme)
+                      .slice(0, 18)
+                      .map((_theme, index) => (
+                        <div
+                          className="inline-grid select-none grid-cols-3 flex-row gap-x-1"
+                          key={index}
+                        >
+                          <div className="col-span-2">
+                            <PokemonTag
+                              rounded="rounded-md"
+                              id={index + 1}
+                              id2={index + 1}
+                            ></PokemonTag>
+                          </div>
+                          x
+                          {getEffectivenessAgainstType(
+                            index,
+                            selectedPokemon.pokemon_v2_pokemontypes[0].type_id -
+                              1,
+                            selectedPokemon.pokemon_v2_pokemontypes.length == 1
+                              ? -1
+                              : selectedPokemon.pokemon_v2_pokemontypes[1]
+                                  .type_id - 1,
+                          )}
+                          {/* {getEffectivenessAgainstType(index, 0, 1)} */}
                         </div>
-                        x
-                        {getEffectivenessAgainstType(
-                          index,
-                          selectedPokemon.pokemon_v2_pokemontypes[0].type_id -
-                            1,
-                          selectedPokemon.pokemon_v2_pokemontypes.length == 1
-                            ? -1
-                            : selectedPokemon.pokemon_v2_pokemontypes[1]
-                                .type_id - 1,
-                        )}
-                        {/* {getEffectivenessAgainstType(index, 0, 1)} */}
-                      </div>
-                    ))}
-                </section>
-
-                <p className="m-0"></p>
+                      ))}
+                  </section>
+                </article>
               </TabPanel>
-              <TabPanel header="Evolution">
-                <p className="m-0"></p>
+              {/* TabPanel Evolution */}
+              <TabPanel
+                header="Evolution"
+                className="pb-16"
+                style={{
+                  height: "-webkit-fill-available",
+                }}
+              >
+                <article className="flex h-full flex-col overflow-x-hidden">
+                  <PokemonEvol pokemon={selectedPokemon}></PokemonEvol>
+                </article>
               </TabPanel>
+              {/* TabPanel Moves */}
               <TabPanel header="Moves">
-                <p className="m-0"></p>
+                <h2>I like to move move i like to move move</h2>
               </TabPanel>
             </TabView>
           </div>
         </section>
-        <div>{selectedPokemon.height}</div>
       </article>
     </>
   );

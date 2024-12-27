@@ -15,8 +15,8 @@ export const PokemonStatBar: React.FC<PokemonStatBar> = ({
   return (
     <>
       <h2 className="col-span-3 opacity-60">{text}</h2>
-      <h2 className="col-span-1">{base_stat}</h2>
-      <div className="col-span-8 ms-2 block content-center">
+      <h2 className="col-span-1 content-center">{base_stat}</h2>
+      <div className="col-span-8 ms-2 block select-none content-center">
         <ProgressBar
           value={total_stats ? base_stat / 6 : base_stat}
           showValue={true}

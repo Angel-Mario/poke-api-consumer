@@ -16,7 +16,7 @@ export const PokemonList: React.FC<Props> = ({ dialog }) => {
           if (
             filter.length == 0 ||
             pokemon.id.toString().includes(filter) ||
-            pokemon.name.includes(filter)
+            pokemon.name.includes(filter.toLocaleLowerCase())
           ) {
             return (
               <PokemonListItem

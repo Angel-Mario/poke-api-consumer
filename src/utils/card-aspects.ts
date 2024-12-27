@@ -18,9 +18,6 @@ export const cardTheme: { [key: string]: string } = {
   dark: "#7b62a3",
   fairy: "#fdb9e9",
 };
-// ground: "#ab9842",
-// ground: "#d1b950",
-
 export const cardButton: { [key: string]: string } = {
   normal: "#e5e5e5",
   fighting: "#fb7929",

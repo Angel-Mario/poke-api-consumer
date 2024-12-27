@@ -401,8 +401,7 @@ export const mockPoke = {
 };
 
 // https://pokeapi.co/api/v2/pokemon/ditto
-
-export const mockePokeDetails = {
+export const mockePokeDetails2 = {
   data: {
     pokemon_v2_pokemon: [
       {
@@ -428,16 +427,10 @@ export const mockePokeDetails = {
               pokemon_v2_egggroup: {
                 name: "monster",
               },
-              pokemon_v2_pokemonspecy: {
-                id: 1,
-              },
             },
             {
               pokemon_v2_egggroup: {
                 name: "plant",
-              },
-              pokemon_v2_pokemonspecy: {
-                id: 1,
               },
             },
           ],
@@ -446,16 +439,45 @@ export const mockePokeDetails = {
               {
                 name: "bulbasaur",
                 id: 1,
+                evolves_from_species_id: null,
+                pokemon_v2_pokemonevolutions: [],
               },
               {
                 name: "venusaur",
                 id: 3,
+                evolves_from_species_id: 2,
+                pokemon_v2_pokemonevolutions: [
+                  {
+                    evolution_item_id: null,
+                    time_of_day: "",
+                    held_item_id: null,
+                    id: 2,
+                    min_level: 32,
+                    needs_overworld_rain: false,
+                    pokemon_v2_item: null,
+                    pokemon_v2_gender: null,
+                  },
+                ],
               },
               {
                 name: "ivysaur",
                 id: 2,
+                evolves_from_species_id: 1,
+                pokemon_v2_pokemonevolutions: [
+                  {
+                    evolution_item_id: null,
+                    time_of_day: "",
+                    held_item_id: null,
+                    id: 1,
+                    min_level: 16,
+                    needs_overworld_rain: false,
+                    pokemon_v2_item: null,
+                    pokemon_v2_gender: null,
+                  },
+                ],
               },
             ],
+            id: 1,
           },
           pokemon_v2_pokemonspeciesflavortexts: [
             {
@@ -516,27 +538,281 @@ export const mockePokeDetails = {
         pokemon_v2_pokemonmoves: [
           {
             pokemon_v2_move: {
-              name: "tackle",
-              power: 40,
-              pp: 35,
-              id: 33,
+              name: "growl",
+              power: null,
+              pp: 40,
+              pokemon_v2_moveflavortexts: [
+                {
+                  flavor_text: "Reduces the foe's\nATTACK.",
+                },
+              ],
+              move_damage_class_id: 1,
+              type_id: 1,
             },
+            level: 1,
+            move_id: 45,
           },
           {
             pokemon_v2_move: {
               name: "growl",
               power: null,
               pp: 40,
-              id: 45,
+              pokemon_v2_moveflavortexts: [
+                {
+                  flavor_text: "Reduces the foe's\nATTACK.",
+                },
+              ],
+              move_damage_class_id: 1,
+              type_id: 1,
+            },
+            level: 3,
+            move_id: 45,
+          },
+        ],
+        pokemon_v2_pokemontypes: [
+          {
+            type_id: 12,
+          },
+          {
+            type_id: 4,
+          },
+        ],
+      },
+    ],
+  },
+};
+
+export const mockePokeDetails = {
+  data: {
+    pokemon_v2_pokemon: [
+      {
+        id: 1,
+        name: "bulbasaur",
+        height: 7,
+        weight: 69,
+        pokemon_v2_pokemonabilities: [
+          {
+            pokemon_v2_ability: {
+              name: "overgrow",
             },
           },
           {
-            pokemon_v2_move: {
-              name: "leech-seed",
-              power: null,
-              pp: 10,
-              id: 73,
+            pokemon_v2_ability: {
+              name: "chlorophyll",
             },
+          },
+        ],
+        pokemon_v2_pokemonspecy: {
+          pokemon_v2_pokemonegggroups: [
+            {
+              pokemon_v2_egggroup: {
+                name: "monster",
+              },
+            },
+            {
+              pokemon_v2_egggroup: {
+                name: "plant",
+              },
+            },
+          ],
+          pokemon_v2_evolutionchain: {
+            pokemon_v2_pokemonspecies: [
+              {
+                name: "bulbasaur",
+                id: 1,
+                evolves_from_species_id: null,
+                pokemon_v2_pokemonevolutions: [],
+                pokemon_v2_pokemons: [
+                  {
+                    id: 1,
+                    pokemon_v2_pokemontypes: [
+                      {
+                        pokemon_v2_type: {
+                          id: 12,
+                        },
+                      },
+                      {
+                        pokemon_v2_type: {
+                          id: 4,
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                name: "venusaur",
+                id: 3,
+                evolves_from_species_id: 2,
+                pokemon_v2_pokemonevolutions: [
+                  {
+                    evolution_item_id: null,
+                    time_of_day: "",
+                    held_item_id: null,
+                    id: 2,
+                    min_level: 32,
+                    needs_overworld_rain: false,
+                    pokemon_v2_item: null,
+                    pokemon_v2_gender: null,
+                  },
+                ],
+                pokemon_v2_pokemons: [
+                  {
+                    id: 3,
+                    pokemon_v2_pokemontypes: [
+                      {
+                        pokemon_v2_type: {
+                          id: 12,
+                        },
+                      },
+                      {
+                        pokemon_v2_type: {
+                          id: 4,
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    id: 10033,
+                    pokemon_v2_pokemontypes: [
+                      {
+                        pokemon_v2_type: {
+                          id: 12,
+                        },
+                      },
+                      {
+                        pokemon_v2_type: {
+                          id: 4,
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    id: 10195,
+                    pokemon_v2_pokemontypes: [
+                      {
+                        pokemon_v2_type: {
+                          id: 12,
+                        },
+                      },
+                      {
+                        pokemon_v2_type: {
+                          id: 4,
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                name: "ivysaur",
+                id: 2,
+                evolves_from_species_id: 1,
+                pokemon_v2_pokemonevolutions: [
+                  {
+                    evolution_item_id: null,
+                    time_of_day: "",
+                    held_item_id: null,
+                    id: 1,
+                    min_level: 16,
+                    needs_overworld_rain: false,
+                    pokemon_v2_item: null,
+                    pokemon_v2_gender: null,
+                  },
+                ],
+                pokemon_v2_pokemons: [
+                  {
+                    id: 2,
+                    pokemon_v2_pokemontypes: [
+                      {
+                        pokemon_v2_type: {
+                          id: 12,
+                        },
+                      },
+                      {
+                        pokemon_v2_type: {
+                          id: 4,
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            id: 1,
+          },
+          pokemon_v2_pokemonspeciesflavortexts: [
+            {
+              flavor_text:
+                "A strange seed was\nplanted on its\nback at birth.\fThe plant sprouts\nand grows with\nthis POKéMON.",
+            },
+          ],
+          pokemon_v2_pokemonspeciesnames: [
+            {
+              genus: "Seed Pokémon",
+            },
+          ],
+        },
+        pokemon_v2_pokemoncries: [
+          {
+            cries:
+              "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/1.ogg",
+          },
+        ],
+        pokemon_v2_pokemonstats: [
+          {
+            base_stat: 45,
+            pokemon_v2_stat: {
+              name: "hp",
+            },
+          },
+          {
+            base_stat: 49,
+            pokemon_v2_stat: {
+              name: "attack",
+            },
+          },
+          {
+            base_stat: 49,
+            pokemon_v2_stat: {
+              name: "defense",
+            },
+          },
+          {
+            base_stat: 65,
+            pokemon_v2_stat: {
+              name: "special-attack",
+            },
+          },
+          {
+            base_stat: 65,
+            pokemon_v2_stat: {
+              name: "special-defense",
+            },
+          },
+          {
+            base_stat: 45,
+            pokemon_v2_stat: {
+              name: "speed",
+            },
+          },
+        ],
+        pokemon_v2_pokemonmoves: [
+          {
+            pokemon_v2_move: {
+              name: "growl",
+              power: null,
+              pp: 40,
+              pokemon_v2_moveflavortexts: [
+                {
+                  flavor_text: "Reduces the foe's\nATTACK.",
+                },
+              ],
+              move_damage_class_id: 1,
+              type_id: 1,
+            },
+            level: 1,
+            move_id: 45,
           },
         ],
         pokemon_v2_pokemontypes: [

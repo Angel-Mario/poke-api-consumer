@@ -206,8 +206,8 @@ export const HeadArticles: {
 //   }
 // }
 
-// query MyQuery($_eq: Int = 1) {
-//   pokemon_v2_pokemon(where: {id: {_eq: $_eq}}) {
+// query MyQuery {
+//   pokemon_v2_pokemon(where: {id: {_eq: 133}}) {
 //     id
 //     name
 //     height
@@ -222,15 +222,38 @@ export const HeadArticles: {
 //         pokemon_v2_egggroup {
 //           name
 //         }
-//         pokemon_v2_pokemonspecy {
-//           id
-//         }
 //       }
 //       pokemon_v2_evolutionchain {
 //         pokemon_v2_pokemonspecies {
 //           name
 //           id
+//           evolves_from_species_id
+//           pokemon_v2_pokemonevolutions {
+//             evolution_item_id
+//             time_of_day
+//             held_item_id
+//             id
+//             min_level
+//             needs_overworld_rain
+//             pokemon_v2_item {
+//               id
+//               name
+//             }
+//             pokemon_v2_gender {
+//               id
+//               name
+//             }
+//           }
+//           pokemon_v2_pokemons {
+//             id
+//             pokemon_v2_pokemontypes {
+//               pokemon_v2_type {
+//                 id
+//               }
+//             }
+//           }
 //         }
+//         id
 //       }
 //       pokemon_v2_pokemonspeciesflavortexts(where: {pokemon_v2_language: {name: {_eq: "en"}}}, limit: 1) {
 //         flavor_text
@@ -248,13 +271,19 @@ export const HeadArticles: {
 //         name
 //       }
 //     }
-//     pokemon_v2_pokemonmoves {
+//     pokemon_v2_pokemonmoves(order_by: {level: asc_nulls_last}, where: {pokemon_v2_move: {generation_id: {_eq: 1}}, _not: {level: {_eq: 0}}}, distinct_on: level) {
 //       pokemon_v2_move {
 //         name
 //         power
 //         pp
-//         id
+//         pokemon_v2_moveflavortexts(where: {language_id: {_eq: 9}}, limit: 1) {
+//           flavor_text
+//         }
+//         move_damage_class_id
+//         type_id
 //       }
+//       level
+//       move_id
 //     }
 //     pokemon_v2_pokemontypes {
 //       type_id

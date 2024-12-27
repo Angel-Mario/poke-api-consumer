@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, Outlet, useLocation } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getPokemonDetails } from "../components/pokedex/PokemonDetails.tsx";
 import { PokemonList } from "../components/pokedex/PokemonList.tsx";
 import { getPokemonListItemData } from "../hooks/getPokemonListItemData.ts";
