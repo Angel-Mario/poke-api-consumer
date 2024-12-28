@@ -5,6 +5,10 @@ import { getPokemonDetails } from "../components/pokedex/PokemonDetails.tsx";
 import { PokemonList } from "../components/pokedex/PokemonList.tsx";
 import { getPokemonListItemData } from "../hooks/getPokemonListItemData.ts";
 import { usePokemonListItemStore } from "../utils/store.ts";
+import {
+  getPokemonDataDetails,
+  setPokemonDataDetails,
+} from "../utils/utils.functions.ts";
 
 export default function Pokemon() {
   const setList = usePokemonListItemStore((state) => state.setList);
@@ -26,9 +30,9 @@ export default function Pokemon() {
 
   return (
     <>
-      <div className="w-fillAvailable sm:h-fillAvailable h-full sm:flex sm:flex-row">
+      <div className="h-full w-fillAvailable sm:flex sm:h-fillAvailable sm:flex-row">
         <div className="fixed -mt-3 h-5 w-full bg-gradient-to-b from-slate-200 to-white sm:mt-0 sm:h-screen sm:w-5 sm:bg-gradient-to-r"></div>
-        <div className="w-fillAvailable sm:h-fillAvailable h-full sm:pl-1">
+        <div className="h-full w-fillAvailable sm:h-fillAvailable sm:pl-1">
           <PokemonList dialog={dialogManager}></PokemonList>
         </div>
 
@@ -77,6 +81,19 @@ export default function Pokemon() {
 // }
 
 export async function loader({ params }: LoaderFunctionArgs<{ id: string }>) {
+  // const requestOptions = {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: QUERY_POKEMON_DETAILS(params.id!)
+  //     };
+
+  const pokemonDetailsLocalStorage = getPokemonDataDetails(+params.id!);
+  if (pokemonDetailsLocalStorage != undefined) {
+    return pokemonDetailsLocalStorage;
+  }
   const pokemonDetails = await getPokemonDetails(params.id!);
+  if (pokemonDetails) {
+    setPokemonDataDetails(pokemonDetails);
+  }
   return pokemonDetails;
 }

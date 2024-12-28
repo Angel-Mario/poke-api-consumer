@@ -93,7 +93,7 @@ const PokemonEvolItem: React.FC<{
           }}
         />
         <img
-          className="pointer-events-none h-28 w-28 -select-none overflow-visible"
+          className="pointer-events-none h-28 w-28 select-none overflow-visible"
           src={getRoute(pokemon.id)}
           alt={pokemon.name}
         />
@@ -105,9 +105,9 @@ const PokemonEvolItem: React.FC<{
           </h2>
         )} */}
         {<h2 className="font-semibold capitalize">{pokemon.name}</h2>}
-        <div className="inline-grid w-36 grid-cols-2 flex-row gap-2 px-2">
+        <div className="flex w-36 flex-row flex-wrap justify-center gap-2 px-2">
           <PokemonTag
-            padding="px-0"
+            padding="px-1 min-w-12"
             id={
               pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
                 .pokemon_v2_type.id
@@ -117,10 +117,10 @@ const PokemonEvolItem: React.FC<{
                 .pokemon_v2_type.id
             }
           ></PokemonTag>
-          {pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.length ==
-            2 && (
+          {pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.length >
+            1 && (
             <PokemonTag
-              padding="px-0"
+              padding="px-1 min-w-12"
               id={
                 pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
                   .pokemon_v2_type.id

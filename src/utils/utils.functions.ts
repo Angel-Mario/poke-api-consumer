@@ -1,4 +1,7 @@
-import { PokemonListItemData } from "../components/pokedex/types";
+import {
+  PokemonListItemData,
+  PokemonListItemDetails,
+} from "../components/pokedex/types";
 
 const src = `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/`;
 
@@ -74,6 +77,38 @@ export function getIfPokemonFavorite(id: number = -1): boolean {
     return storage && storage.find((value) => value === id) != undefined;
   } else {
     return false;
+  }
+}
+
+export function setPokemonDataDetails(pokemon: PokemonListItemDetails): void {
+  const storageString = localStorage.getItem("pokListDetails");
+  if (storageString && storageString != "undefined") {
+    let storage = <PokemonListItemDetails[]>JSON.parse(storageString);
+    if (storage) {
+      storage.push(pokemon);
+      localStorage.setItem("pokListDetails", JSON.stringify(storage.sort));
+    }
+  } else {
+    localStorage.setItem("pokListDetails", JSON.stringify(Array.of(pokemon)));
+  }
+}
+export function getPokemonDataDetails(
+  id: number = -1,
+): PokemonListItemDetails | undefined {
+  const storageString = localStorage.getItem("pokListDetails");
+  if (
+    storageString &&
+    storageString != "undefined" &&
+    storageString.length > 1
+  ) {
+    let storage = <PokemonListItemDetails[]>JSON.parse(storageString);
+    console.log(
+      "Encontro",
+      storage.find((value) => value.data.pokemon_v2_pokemon[0].id === id),
+    );
+    return storage.find((value) => value.data.pokemon_v2_pokemon[0].id === id);
+  } else {
+    return undefined;
   }
 }
 

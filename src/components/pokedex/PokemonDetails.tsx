@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { PokemonListItemDetails } from "./types";
-import { getEffectivenessAgainstType, POKETYPES } from "../../utils/consts";
-import { mockePokeDetails } from "../../utils/mocks";
+import {
+  getEffectivenessAgainstType,
+  POKETYPES,
+  QUERY_POKEMON_DETAILS,
+} from "../../utils/consts";
+
 import {
   getHeightInFeets,
   getId,
@@ -28,6 +32,7 @@ import { PokemonEvol } from "./PokemonEvol";
 
 export const PokemonDetails: React.FC = () => {
   const selectedPokemonAll = useLoaderData() as PokemonListItemDetails;
+  console.log("Loaded Info", selectedPokemonAll);
 
   const selectedPokemon = selectedPokemonAll.data.pokemon_v2_pokemon[0];
 
@@ -51,7 +56,7 @@ export const PokemonDetails: React.FC = () => {
     <>
       <article className="relative h-screen overflow-hidden sm:rounded-tl-xl">
         {/* Square Top Left Corner */}
-        <div className="w-fillAvailable absolute z-0 flex h-52 flex-row sm:rounded-t-xl">
+        <div className="absolute z-0 flex h-52 w-fillAvailable flex-row sm:rounded-t-xl">
           <div
             className="h-24 w-28 -translate-x-9 -translate-y-5 -rotate-[20deg] rounded-b-2xl opacity-50 sm:rounded-2xl"
             style={{
@@ -116,7 +121,7 @@ export const PokemonDetails: React.FC = () => {
                 id={selectedPokemon.pokemon_v2_pokemontypes[0].type_id}
                 id2={selectedPokemon.pokemon_v2_pokemontypes[0].type_id}
               ></PokemonTag>
-              {selectedPokemon.pokemon_v2_pokemontypes[1].type_id != 0 && (
+              {selectedPokemon.pokemon_v2_pokemontypes.length > 1 && (
                 <PokemonTag
                   id={selectedPokemon.pokemon_v2_pokemontypes[0].type_id}
                   id2={selectedPokemon.pokemon_v2_pokemontypes[1].type_id}
@@ -129,7 +134,7 @@ export const PokemonDetails: React.FC = () => {
                 src={getRoute(selectedPokemon.id)}
                 alt={selectedPokemon.name}
               />
-              <div className="w-fillAvailable absolute z-20 flex h-52 translate-x-7 translate-y-5 flex-row justify-end overflow-hidden">
+              <div className="absolute z-20 flex h-52 w-fillAvailable translate-x-7 translate-y-5 flex-row justify-end overflow-hidden">
                 <PokeIcon
                   fill={
                     cardButton[
@@ -153,8 +158,8 @@ export const PokemonDetails: React.FC = () => {
           ></div>
         </nav>
 
-        <section className="h-fillAvailable absolute z-30 -mt-9 w-full rounded-t-[2.5rem] bg-white shadow-2xl sm:rounded-b-[2.5rem]">
-          <div className="h-fillAvailable mx-4 mb-3 mt-8 overflow-hidden">
+        <section className="absolute z-30 -mt-9 h-fillAvailable w-full rounded-t-[2.5rem] bg-white shadow-2xl sm:rounded-b-[2.5rem]">
+          <div className="mx-4 mb-3 mt-8 h-fillAvailable overflow-hidden">
             <TabView className="h-full">
               {/* TabPanel About */}
               <TabPanel header="About" className="h-fillAvailable pb-16">
@@ -347,18 +352,21 @@ export const getPokemonDetails = (id: string) => {
 async function requestPokemonDetails(
   id: string,
 ): Promise<PokemonListItemDetails> {
-  // const requestOptions = {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(QUERY_POKEMON_DETAILS(id)),
-  // };
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(QUERY_POKEMON_DETAILS(id)),
+  };
 
-  // const response = await fetch(
-  //     "https://beta.pokeapi.co/graphql/v1beta",
-  //     requestOptions,
-  // );
+  const response = await fetch(
+    "https://beta.pokeapi.co/graphql/v1beta",
+    requestOptions,
+  );
   console.log(id);
-  const data = mockePokeDetails;
-  // const data = await response.json();
+  console.log(response);
+
+  // const data = mockePokeDetails;
+  const data = await response.json();
+  console.log(data);
   return data;
 }
