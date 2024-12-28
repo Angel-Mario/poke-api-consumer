@@ -39,7 +39,7 @@ export function HeaderNav({}) {
         <form onSubmit={handleSubmit} style={{ width: "90%" }}>
           <input
             onChange={handleChange}
-            name="querey"
+            name="query"
             type="text"
             className="m-2 me-4 w-full appearance-none bg-transparent font-mono text-slate-700 placeholder:text-slate-400 focus:outline-none"
             placeholder="Bulbasaur, 1, Grass"

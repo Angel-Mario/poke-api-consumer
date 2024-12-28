@@ -53,7 +53,7 @@ export const PokemonDetails: React.FC = () => {
         {/* Square Top Left Corner */}
         <div className="w-fillAvailable absolute z-0 flex h-52 flex-row sm:rounded-t-xl">
           <div
-            className="h-24 w-28 -translate-x-9 -translate-y-5 -rotate-[20deg] opacity-50 sm:rounded-2xl"
+            className="h-24 w-28 -translate-x-9 -translate-y-5 -rotate-[20deg] rounded-b-2xl opacity-50 sm:rounded-2xl"
             style={{
               backgroundColor:
                 cardButton[

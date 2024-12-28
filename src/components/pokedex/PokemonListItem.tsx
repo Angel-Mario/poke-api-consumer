@@ -35,7 +35,7 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
           ],
       }}
     >
-      <Link to={`${pokemonListItemData.id}`}>
+      <Link relative={"path"} to={`${pokemonListItemData.id}`}>
         <Ripple
           pt={{
             root: {
