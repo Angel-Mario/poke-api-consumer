@@ -117,6 +117,50 @@ const router = createBrowserRouter(
         },
       ],
     },
+    {
+      path: "/poke-api-consumer/",
+      element: (
+        <PrimeReactProvider value={value}>
+          <Root />
+        </PrimeReactProvider>
+      ),
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "pokemon/",
+          element: <Pokemon />,
+          children: [
+            {
+              path: ":id",
+              element: <PokemonDetails />,
+              loader: pokedexLoader,
+            },
+          ],
+        },
+        {
+          path: "moves/",
+          element: <Pokemon />,
+          children: [
+            {
+              path: ":id",
+              element: <PokemonDetails />,
+              loader: pokedexLoader,
+            },
+          ],
+        },
+        {
+          path: "abilities/",
+          element: <Pokemon />,
+          children: [
+            {
+              path: ":id",
+              element: <PokemonDetails />,
+              loader: pokedexLoader,
+            },
+          ],
+        },
+      ],
+    },
   ],
   // {
   //   future: {
