@@ -22,8 +22,8 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <li
-      className="p-ripple z-30 h-auto w-40 cursor-pointer rounded-2xl shadow-sm shadow-black hover:-translate-y-1 mlarge:w-48 2xl:w-56"
+    <article
+      className="p-ripple z-30 h-auto w-40 cursor-pointer rounded-2xl shadow-sm shadow-gray-600 hover:-translate-y-1 mlarge:w-48 2xl:w-56"
       key={pokemonListItemData.id}
       onClick={() => dialogManager()}
       style={{
@@ -114,6 +114,6 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
           />
         </div>
       </Link>
-    </li>
+    </article>
   );
 };

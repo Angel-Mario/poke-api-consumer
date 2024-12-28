@@ -93,6 +93,28 @@ const router = createBrowserRouter(
             },
           ],
         },
+        {
+          path: "moves/",
+          element: <Pokemon />,
+          children: [
+            {
+              path: ":id",
+              element: <PokemonDetails />,
+              loader: pokedexLoader,
+            },
+          ],
+        },
+        {
+          path: "abilities/",
+          element: <Pokemon />,
+          children: [
+            {
+              path: ":id",
+              element: <PokemonDetails />,
+              loader: pokedexLoader,
+            },
+          ],
+        },
       ],
     },
   ],

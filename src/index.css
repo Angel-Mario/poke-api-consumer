@@ -43,3 +43,7 @@ div[data-pc-section="panelcontainer"] {
   height: -webkit-fill-available;
   margin-bottom: 40px;
 }
+
+.fill {
+  width: -webkit-fill-available;
+}

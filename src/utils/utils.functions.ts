@@ -1,3 +1,5 @@
+import { PokemonListItemData } from "../components/pokedex/types";
+
 const src = `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/`;
 
 export const getRoute = (id: number) => {
@@ -73,4 +75,40 @@ export function getIfPokemonFavorite(id: number = -1): boolean {
   } else {
     return false;
   }
+}
+
+export function filterPokemons(
+  pokemons: PokemonListItemData[],
+  filter: string,
+  columns: number,
+): PokemonListItemData[][] {
+  const filtered = pokemons.filter((item) => {
+    return (
+      filter.length == 0 ||
+      item.id.toString().includes(filter) ||
+      item.name.includes(filter.toLocaleLowerCase())
+    );
+  });
+
+  return toTwoDimensionalArray(filtered, columns);
+}
+
+type ObjectArray = Record<string, any>[];
+
+function toTwoDimensionalArray(
+  array: ObjectArray,
+  columns: number,
+): PokemonListItemData[][] {
+  const result: any[][] = [];
+  let rowIndex = 0;
+
+  for (let i = 0; i < array.length; i++) {
+    if (i % columns === 0) {
+      result.push([]);
+      rowIndex++;
+    }
+    result[rowIndex - 1].push(array[i]);
+  }
+
+  return result;
 }

@@ -8,17 +8,24 @@ export default {
   ],
   theme: {
     extend: {
+      width: {
+        fillAvailable: "-webkit-fill-available",
+      },
+      height: {
+        fillAvailable: "-webkit-fill-available",
+      },
       screens: {
         smaller: "475px",
         small: "525px",
         intermed: "745px",
         medium: "875px",
-        navBar: "990px",
+        navBar: "1010px",
         mlarge: "1200px",
         large: "1425px",
         extraLarge: "1900px",
       },
     },
   },
+
   plugins: [],
 };

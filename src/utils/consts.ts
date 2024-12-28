@@ -151,7 +151,7 @@ export const HeadArticles: {
       link: `/locations`,
     },
     {
-      children: "Type Charts",
+      children: "Types",
       theme: cardTheme["ground"],
       button: cardButton["ground"],
       link: `/types`,

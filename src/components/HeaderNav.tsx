@@ -27,7 +27,7 @@ export function HeaderNav({}) {
 
   return (
     <nav
-      className="flex h-2/5 flex-col-reverse rounded-b-3xl"
+      className="flex h-4/5 flex-col-reverse rounded-b-3xl sm:h-2/5"
       style={{
         background: "#fa6555",
       }}
@@ -36,7 +36,7 @@ export function HeaderNav({}) {
         <div className="ms-4">
           <SearchIcon></SearchIcon>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ width: "90%" }}>
           <input
             onChange={handleChange}
             name="querey"
@@ -53,7 +53,7 @@ export function HeaderNav({}) {
           <br />
           are you looking for?
         </h1>
-        <div className="absolute flex w-64 -translate-y-20 translate-x-20 overflow-hidden">
+        <div className="absolute flex w-24 overflow-hidden sm:w-64 sm:-translate-y-20 sm:translate-x-20">
           <PokeIcon fill="#e15b4d"></PokeIcon>
         </div>
       </div>

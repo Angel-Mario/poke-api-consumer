@@ -26,12 +26,10 @@ export default function Pokemon() {
 
   return (
     <>
-      <div className="w-auto flex-row">
-        <div className="fixed h-full w-0 bg-gradient-to-r from-slate-200 to-white sm:w-5"></div>
-        <div className="sm:pl-1">
-          <div className="flex justify-center rounded-xl bg-white p-5">
-            <PokemonList dialog={dialogManager}></PokemonList>
-          </div>
+      <div className="w-fillAvailable sm:h-fillAvailable h-full sm:flex sm:flex-row">
+        <div className="fixed -mt-3 h-5 w-full bg-gradient-to-b from-slate-200 to-white sm:mt-0 sm:h-screen sm:w-5 sm:bg-gradient-to-r"></div>
+        <div className="w-fillAvailable sm:h-fillAvailable h-full sm:pl-1">
+          <PokemonList dialog={dialogManager}></PokemonList>
         </div>
 
         <Dialog
