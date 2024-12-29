@@ -1,4 +1,9 @@
-import { LoaderFunctionArgs, Outlet, useLocation } from "react-router-dom";
+import {
+  LoaderFunctionArgs,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Dialog } from "primereact/dialog";
 import { useEffect, useState } from "react";
 import { getPokemonDetails } from "../components/pokedex/PokemonDetails.tsx";
@@ -17,13 +22,22 @@ export default function Pokemon() {
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dialogManager = () => setDialogVisible(!isDialogVisible);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setList(getPokemonListItemData());
   }, []);
 
+  // navigate("");
+
   useEffect(() => {
-    console.log(location.pathname);
+    if (!location.pathname.endsWith("pokemon") && !isDialogVisible) {
+      console.log("Popeye");
+      navigate("");
+    }
+  }, [isDialogVisible]);
+
+  useEffect(() => {
     if (location.pathname.endsWith("pokemon") && isDialogVisible)
       setDialogVisible(false);
   }, [location]);
@@ -31,7 +45,6 @@ export default function Pokemon() {
   return (
     <>
       <div className="h-full w-fillAvailable sm:flex sm:h-fillAvailable sm:flex-row">
-        <div className="fixed -mt-3 h-5 w-full bg-gradient-to-b from-slate-200 to-white sm:mt-0 sm:h-screen sm:w-5 sm:bg-gradient-to-r"></div>
         <div className="h-full w-fillAvailable sm:h-fillAvailable sm:pl-1">
           <PokemonList dialog={dialogManager}></PokemonList>
         </div>
@@ -81,17 +94,14 @@ export default function Pokemon() {
 // }
 
 export async function loader({ params }: LoaderFunctionArgs<{ id: string }>) {
-  // const requestOptions = {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: QUERY_POKEMON_DETAILS(params.id!)
-  //     };
-
   const pokemonDetailsLocalStorage = getPokemonDataDetails(+params.id!);
   if (pokemonDetailsLocalStorage != undefined) {
     return pokemonDetailsLocalStorage;
   }
-  const pokemonDetails = await getPokemonDetails(params.id!);
+  const pokemonDetails = await getPokemonDetails(params.id!).catch((_error) => {
+    return undefined;
+  });
+
   if (pokemonDetails) {
     setPokemonDataDetails(pokemonDetails);
   }
