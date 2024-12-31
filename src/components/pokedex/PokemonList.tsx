@@ -12,11 +12,10 @@ import { LoaderFunctionArgs } from "react-router-dom";
 import { QUERY_POKEMON_DETAILS } from "../../utils/consts.ts";
 
 interface Props {
-  dialog: () => void;
   idManager: (id: number) => void;
 }
 
-export const PokemonList: React.FC<Props> = ({ dialog, idManager }) => {
+export const PokemonList: React.FC<Props> = ({ idManager }) => {
   const pokemons = usePokemonListItemStore((state) => state.pokemons);
   const filterText = usePokemonListItemStore((state) => state.filter);
 
@@ -46,7 +45,6 @@ export const PokemonList: React.FC<Props> = ({ dialog, idManager }) => {
             <PokemonListItem
               pokemonListItemData={pokemonItem}
               key={`ListItem${pokemonItem.id}`}
-              dialogManager={dialog}
               pokemonIdManager={idManager}
             ></PokemonListItem>
           );
@@ -74,9 +72,8 @@ export const PokemonList: React.FC<Props> = ({ dialog, idManager }) => {
             ),
           )}
           columns={1}
-          itemSize={100}
+          itemSize={120}
           itemTemplate={itemTemplate}
-          lazy={true}
           className="border-1 surface-border border-round h-fillAvailable w-fillAvailable"
           style={{
             height: isSmallDevice || isSemiSmallDevice ? "98%" : "99vh",

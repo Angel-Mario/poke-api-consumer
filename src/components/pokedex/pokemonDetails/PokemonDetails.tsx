@@ -41,7 +41,11 @@ export const PokemonDetails: React.FC = () => {
             </TabPanel>
             {/* TabPanel Moves */}
             <TabPanel header="Moves">
-              <h2>I like to move move i like to move move</h2>
+              <img
+                src="https://i.gifer.com/5IPv.gif"
+                alt="Pika"
+                className="w-96"
+              ></img>
             </TabPanel>
           </TabView>
         </div>

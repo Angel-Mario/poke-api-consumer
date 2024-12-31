@@ -1,5 +1,5 @@
 import { ProgressBar } from "primereact/progressbar";
-import { getBarColorIndividual } from "../../utils/utils.functions";
+import { getBarColorIndividual } from "../../../utils/utils.functions";
 
 interface PokemonStatBar {
   base_stat: number;

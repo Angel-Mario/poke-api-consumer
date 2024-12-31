@@ -10,6 +10,13 @@ interface Props {
 }
 
 export const DetailsAbout: React.FC<Props> = ({ pokemon }) => {
+  let abilities = "";
+
+  pokemon.pokemon_v2_pokemonabilities.forEach((abil, index) => {
+    if (index != 0) abilities += ", " + abil.pokemon_v2_ability.name;
+    else abilities = abil.pokemon_v2_ability.name;
+  });
+
   return (
     <>
       <div className="flex h-full flex-col overflow-x-hidden">
@@ -41,14 +48,7 @@ export const DetailsAbout: React.FC<Props> = ({ pokemon }) => {
 
               <h2 className="col-span-3 opacity-60">Abilities</h2>
               <div className="col-span-9 flex flex-row">
-                {pokemon.pokemon_v2_pokemonabilities.map((abilities, index) => (
-                  <h2
-                    className="capitalize"
-                    key={abilities.pokemon_v2_ability.name}
-                  >
-                    {`${index != 0 ? ", " : ""}${abilities.pokemon_v2_ability.name}`}
-                  </h2>
-                ))}
+                <h2 className="capitalize">{abilities}.</h2>
               </div>
             </section>
             <h1 className="mb-2 mt-3 text-xl font-bold">Breeding</h1>

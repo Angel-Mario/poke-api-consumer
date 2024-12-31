@@ -36,12 +36,8 @@ export default function Pokemon() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const dialogManager = () => {
-    setDialogVisible(!isDialogVisible);
-  };
   const pokemonIdManager = (id: number) => {
     setPokemonId(id);
-    console.log(id);
   };
 
   const { state } = useNavigation();
@@ -52,8 +48,6 @@ export default function Pokemon() {
         !location.pathname.endsWith("pokemon/")) &&
       !isDialogVisible
     ) {
-      console.log(isDialogVisible);
-      console.log("Popeye", location.pathname);
       navigate("");
     }
   }, [isDialogVisible]);
@@ -64,17 +58,15 @@ export default function Pokemon() {
     if (!isNaN(+splitedPaths[splitedPaths.length - 1])) {
       if (+splitedPaths[splitedPaths.length - 1] != 0) {
         setPokemonId(+splitedPaths[splitedPaths.length - 1]);
+        if (!isDialogVisible) setDialogVisible(true);
       }
-    }
-
-    if (
-      (location.pathname.endsWith("pokemon") ||
-        location.pathname.endsWith("pokemon/")) &&
-      isDialogVisible
-    ) {
-      console.log("Pato", location.pathname);
-      setDialogVisible(false);
     } else {
+      if (
+        isDialogVisible &&
+        splitedPaths[splitedPaths.length - 1].includes("pokemon")
+      ) {
+        setDialogVisible(false);
+      }
     }
   }, [location]);
 
@@ -89,9 +81,7 @@ export default function Pokemon() {
     <>
       <div className="h-full w-fillAvailable sm:flex sm:h-fillAvailable sm:flex-row">
         <div className="h-full w-fillAvailable sm:h-fillAvailable sm:pl-1">
-          {loaderListAll && (
-            <PokemonList dialog={dialogManager} idManager={pokemonIdManager} />
-          )}
+          {loaderListAll && <PokemonList idManager={pokemonIdManager} />}
         </div>
 
         <Dialog

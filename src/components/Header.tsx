@@ -8,7 +8,7 @@ export default function Header() {
     <header className="flex w-full flex-col sm:h-screen sm:w-3/12 navBar:w-5/12 xl:w-3/12">
       <HeaderNav />
       <ScrollPanel style={{ width: "100%", height: "100%" }}>
-        <section className="w-fillAvailable mx-2 mt-2 flex flex-row gap-3 sm:mx-3 sm:mt-5 sm:inline-grid sm:grid-cols-1 navBar:grid-cols-2">
+        <section className="mx-2 mt-2 flex w-fillAvailable flex-row gap-3 sm:mx-3 sm:mt-5 sm:inline-grid sm:grid-cols-1 navBar:grid-cols-2">
           {HeadArticles.data.map((article) => (
             <HeaderArticleLink
               children={article.children}

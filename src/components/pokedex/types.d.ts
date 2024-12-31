@@ -104,13 +104,18 @@ export interface PokemonV2PokemonspecyElement {
 
 export interface PokemonV2Pokemonevolution {
   evolution_item_id: null;
-  time_of_day: string;
+  time_of_day: string | null;
   held_item_id: null;
   id: number;
-  min_level: number;
+  min_level: number | null;
   needs_overworld_rain: boolean;
-  pokemon_v2_item: null;
+  pokemon_v2_item: null | PokemonV2Item;
   pokemon_v2_gender: null;
+}
+
+export interface PokemonV2Item {
+  id: number;
+  name: string;
 }
 
 export interface PokemonV2PokemonspecyPokemonV2Pokemon {

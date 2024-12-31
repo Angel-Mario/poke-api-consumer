@@ -198,8 +198,8 @@ export const HeadArticles: {
     },
     {
       children: "Types",
-      theme: cardTheme["ground"],
-      button: cardButton["ground"],
+      theme: "#ca8179",
+      button: "#d7a09a",
       link: `/types`,
     },
   ],

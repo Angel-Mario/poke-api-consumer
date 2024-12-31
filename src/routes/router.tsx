@@ -68,7 +68,6 @@ export const ROUTER = createBrowserRouter([
               let { PokemonDetails } = await import(
                 "../components/pokedex/pokemonDetails/PokemonDetails.tsx"
               );
-              console.log("cargo /poke-api-consumer/");
               return { Component: PokemonDetails };
             },
           },

@@ -1,6 +1,6 @@
 import { ScrollPanel } from "primereact/scrollpanel";
 import { PokemonV2Pokemon } from "../types";
-import { PokemonStatBar } from "../PokemonStatBar";
+import { PokemonStatBar } from "./PokemonStatBar";
 import { cardTheme } from "../../../utils/card-aspects";
 import { getEffectivenessAgainstType } from "../../../utils/consts";
 import { PokemonTag } from "../PokemonTag";
@@ -86,7 +86,6 @@ export const DetailsStats: React.FC<Props> = ({ pokemon }) => {
                         ? -1
                         : pokemon.pokemon_v2_pokemontypes[1].type_id - 1,
                     )}
-                    {/* {getEffectivenessAgainstType(index, 0, 1)} */}
                   </div>
                 ))}
             </section>

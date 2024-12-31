@@ -143,11 +143,9 @@ function setPokemonFavorite(id: number = -1): void {
     if (storage) {
       storage.push(id);
       localStorage.setItem("pokFaves", JSON.stringify(storage));
-      console.log("MetioCorazon");
     }
   } else {
     localStorage.setItem("pokFaves", JSON.stringify(Array.of(id)));
-    console.log("MetioCorazon");
   }
 }
 function unsetPokemonFavorite(id: number = -1) {
@@ -165,7 +163,6 @@ function unsetPokemonFavorite(id: number = -1) {
 
 export function setPokemonList(pokemons: PokemonListItemData[]): void {
   localStorage.setItem("pokList", JSON.stringify(pokemons));
-  console.log("Metio lista");
 }
 
 export function getPokemonList(): PokemonListItemData[] | undefined {
