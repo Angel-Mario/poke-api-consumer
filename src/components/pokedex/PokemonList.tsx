@@ -1,17 +1,23 @@
 import { PokemonListItem } from "./PokemonListItem";
 import { usePokemonListItemStore } from "../../utils/store.ts";
 import { VirtualScroller } from "primereact/virtualscroller";
-import { PokemonListItemData } from "./types";
+import { PokemonListItemData, PokemonListItemDetails } from "./types";
 import { useMediaQuery } from "@uidotdev/usehooks";
-import { filterPokemons } from "../../utils/utils.functions.ts";
+import {
+  filterPokemons,
+  getPokemonDataDetails,
+  setPokemonDataDetails,
+} from "../../utils/utils.functions.ts";
+import { LoaderFunctionArgs } from "react-router-dom";
+import { QUERY_POKEMON_DETAILS } from "../../utils/consts.ts";
 
 interface Props {
   dialog: () => void;
 }
 
 export const PokemonList: React.FC<Props> = ({ dialog }) => {
-  const pokemon = usePokemonListItemStore((state) => state.pokemons);
-  const filter = usePokemonListItemStore((state) => state.filter);
+  const pokemons = usePokemonListItemStore((state) => state.pokemons);
+  const filterText = usePokemonListItemStore((state) => state.filter);
 
   const isSmallDevice = useMediaQuery("only screen and (max-width : 540px)");
 
@@ -33,12 +39,12 @@ export const PokemonList: React.FC<Props> = ({ dialog }) => {
 
   const itemTemplate = (item: PokemonListItemData[]) => {
     return item && item != undefined && item != null ? (
-      <div className="w-fillAvailable mb-2 mt-1 flex flex-row flex-wrap justify-center gap-4">
+      <div className="mb-2 mt-1 flex w-fillAvailable flex-row flex-wrap justify-center gap-4">
         {item.map((pokemonItem) => {
           return (
             <PokemonListItem
               pokemonListItemData={pokemonItem}
-              key={pokemonItem.id}
+              key={`ListItem${pokemonItem.id}`}
               dialogManager={dialog}
             ></PokemonListItem>
           );
@@ -51,11 +57,11 @@ export const PokemonList: React.FC<Props> = ({ dialog }) => {
 
   return (
     <>
-      <div className="w-fillAvailable sm:h-fillAvailable mb-1 mt-1 h-full rounded-xl bg-white sm:pe-2 sm:ps-3">
+      <div className="mb-1 mt-1 h-full w-fillAvailable rounded-xl bg-white sm:h-fillAvailable sm:pe-2 sm:ps-3">
         <VirtualScroller
           items={filterPokemons(
-            pokemon,
-            filter,
+            pokemons,
+            filterText,
             getColsByMedia(
               isSmallDevice,
               isSemiSmallDevice,
@@ -66,9 +72,10 @@ export const PokemonList: React.FC<Props> = ({ dialog }) => {
             ),
           )}
           columns={1}
-          itemSize={120}
+          itemSize={100}
           itemTemplate={itemTemplate}
-          className="border-1 surface-border border-round w-fillAvailable h-fillAvailable"
+          lazy={true}
+          className="border-1 surface-border border-round h-fillAvailable w-fillAvailable"
           style={{
             height: isSmallDevice || isSemiSmallDevice ? "98%" : "99vh",
           }}
@@ -91,4 +98,46 @@ function getColsByMedia(
   if (isMediumDevice || isSemiSmallDevice) return 3;
   if (isSmallDevice || isSemiMediumDevice) return 2;
   return 4;
+}
+
+export async function loader({ params }: LoaderFunctionArgs<{ id: string }>) {
+  const pokemonDetailsLocalStorage = getPokemonDataDetails(+params.id!);
+  if (pokemonDetailsLocalStorage != undefined) {
+    return pokemonDetailsLocalStorage;
+  }
+  const pokemonDetails = await getPokemonDetails(params.id!).catch((_error) => {
+    return undefined;
+  });
+  console.log("detallito", pokemonDetails);
+
+  if (pokemonDetails) {
+    setPokemonDataDetails(pokemonDetails);
+  }
+  return pokemonDetails;
+}
+
+const getPokemonDetails = (id: string) => {
+  return requestPokemonDetails(id);
+};
+
+async function requestPokemonDetails(
+  id: string,
+): Promise<PokemonListItemDetails | undefined> {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(QUERY_POKEMON_DETAILS(id)),
+  };
+
+  const response = await fetch(
+    "https://beta.pokeapi.co/graphql/v1beta",
+    requestOptions,
+  );
+  console.log(id);
+  console.log(response);
+
+  // const data = mockePokeDetails;
+  const data = await response.json();
+  console.log(data);
+  return data;
 }

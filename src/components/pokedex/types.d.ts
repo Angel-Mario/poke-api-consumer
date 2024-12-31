@@ -14,6 +14,14 @@ export interface PokemonListItemData {
     },
   ];
 }
+export interface PokemonListItemDataList {
+  data: DataList;
+}
+
+export interface DataList {
+  pokemon_v2_pokemon: PokemonListItemData[];
+}
+
 export interface PokemonListItemDetails {}
 
 export type PokemonId = Pick<PokemonListItemData, "id">;

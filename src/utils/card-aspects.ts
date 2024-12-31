@@ -14,9 +14,10 @@ export const cardTheme: { [key: string]: string } = {
   electric: "#ffd86f",
   psychic: "#f366b9",
   ice: "#51c4e7",
-  dragon: "#f16e57",
+  dragon: "#FF8700",
   dark: "#7b62a3",
   fairy: "#fdb9e9",
+  undefined: "#FFFF",
 };
 export const cardButton: { [key: string]: string } = {
   normal: "#e5e5e5",
@@ -34,7 +35,30 @@ export const cardButton: { [key: string]: string } = {
   electric: "#ffeb6f",
   psychic: "#ff6bb8",
   ice: "#51c4e7",
-  dragon: "#f16e57",
+  dragon: "#C14C3F",
   dark: "#9778c9",
   fairy: "#ffbae1",
+  undefined: "#FFFF",
+};
+
+export const cardDetails: { [key: string]: string } = {
+  normal: "#bfbfbf",
+  fighting: "#d56723",
+  flying: "#c5c5c5",
+  poison: "#b97fc9",
+  ground: "#ca8179",
+  rock: "#a38c21",
+  bug: "#89cc50",
+  ghost: "#7b62a3",
+  steel: "#9eb7b8",
+  fire: "#fb6c6c",
+  water: "#76bdfe",
+  grass: "#48d0b0",
+  electric: "#414141",
+  psychic: "#f366b9",
+  ice: "#51c4e7",
+  dragon: "#f16e57",
+  dark: "#7b62a3",
+  fairy: "#fdb9e9",
+  undefined: "#FFFF",
 };

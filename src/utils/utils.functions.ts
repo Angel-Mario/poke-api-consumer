@@ -42,32 +42,6 @@ export function getBarColorIndividual(value: number): string {
   return "#00aa13";
 }
 
-export function setPokemonFavorite(id: number = -1): void {
-  const storageString = localStorage.getItem("pokFaves");
-  if (storageString && storageString != "undefined") {
-    let storage = <number[]>JSON.parse(storageString);
-    if (storage) {
-      storage.push(id);
-      localStorage.setItem("pokFaves", JSON.stringify(storage));
-      console.log("MetioCorazon");
-    }
-  } else {
-    localStorage.setItem("pokFaves", JSON.stringify(Array.of(id)));
-    console.log("MetioCorazon");
-  }
-}
-export function unsetPokemonFavorite(id: number = -1) {
-  const storageString = localStorage.getItem("pokFaves");
-  if (storageString && storageString != "undefined") {
-    let storage = <number[]>JSON.parse(storageString);
-    if (storage) {
-      localStorage.setItem(
-        "pokFaves",
-        JSON.stringify(storage.filter((value) => value !== id)),
-      );
-    }
-  }
-}
 export function getIfPokemonFavorite(id: number = -1): boolean {
   const storageString = localStorage.getItem("pokFaves");
   if (
@@ -106,10 +80,6 @@ export function getPokemonDataDetails(
     storageString.length > 1
   ) {
     let storage = <PokemonListItemDetails[]>JSON.parse(storageString);
-    console.log(
-      "Encontro",
-      storage.find((value) => value.data.pokemon_v2_pokemon[0].id === id),
-    );
     return storage.find((value) => value.data.pokemon_v2_pokemon[0].id === id);
   } else {
     return undefined;
@@ -148,6 +118,81 @@ function toTwoDimensionalArray(
     }
     result[rowIndex - 1].push(array[i]);
   }
-
   return result;
+}
+
+export function manageHeartClick(
+  isFavorite: boolean,
+  id: number,
+  setFavorite: React.Dispatch<React.SetStateAction<boolean>>,
+) {
+  if (isFavorite) {
+    console.log("descorazonado");
+    unsetPokemonFavorite(id);
+  } else {
+    console.log("encorazonado");
+    setPokemonFavorite(id);
+  }
+  setFavorite(!isFavorite);
+}
+
+function setPokemonFavorite(id: number = -1): void {
+  const storageString = localStorage.getItem("pokFaves");
+  if (storageString && storageString != "undefined") {
+    let storage = <number[]>JSON.parse(storageString);
+    if (storage) {
+      storage.push(id);
+      localStorage.setItem("pokFaves", JSON.stringify(storage));
+      console.log("MetioCorazon");
+    }
+  } else {
+    localStorage.setItem("pokFaves", JSON.stringify(Array.of(id)));
+    console.log("MetioCorazon");
+  }
+}
+function unsetPokemonFavorite(id: number = -1) {
+  const storageString = localStorage.getItem("pokFaves");
+  if (storageString && storageString != "undefined") {
+    let storage = <number[]>JSON.parse(storageString);
+    if (storage) {
+      localStorage.setItem(
+        "pokFaves",
+        JSON.stringify(storage.filter((value) => value !== id)),
+      );
+    }
+  }
+}
+
+export function setPokemonList(pokemons: PokemonListItemData[]): void {
+  localStorage.setItem("pokList", JSON.stringify(pokemons));
+  console.log("Metio lista");
+}
+
+export function getPokemonList(): PokemonListItemData[] | undefined {
+  const storageString = localStorage.getItem("pokList");
+  if (
+    storageString &&
+    storageString != "undefined" &&
+    storageString.length > 1
+  ) {
+    let storage = <PokemonListItemData[]>JSON.parse(storageString);
+    return storage;
+  } else {
+    return undefined;
+  }
+}
+export function getPokemonListItem(
+  id: number = -1,
+): PokemonListItemData | undefined {
+  const storageString = localStorage.getItem("pokList");
+  if (
+    storageString &&
+    storageString != "undefined" &&
+    storageString.length > 1
+  ) {
+    let storage = <PokemonListItemData[]>JSON.parse(storageString);
+    return storage.find((value) => value.id == id);
+  } else {
+    return undefined;
+  }
 }
