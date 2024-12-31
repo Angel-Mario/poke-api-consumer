@@ -14,6 +14,7 @@ import {
 import { PokemonTag } from "../PokemonTag";
 import { PokemonListItemData } from "../types";
 import { useEffect, useState } from "react";
+import { MultiDots } from "../../../assets/MultiDots";
 
 interface Props {
   pokemon: PokemonListItemData;
@@ -52,7 +53,7 @@ export const DetailsBasic: React.FC<Props> = ({ pokemon }) => {
       >
         <section className="relative z-10 mx-3 flex h-1/6 flex-row pt-5">
           <div className="p-ripple ms-1 w-11 rounded-2xl">
-            <Link relative={"path"} to={".."}>
+            <Link relative={"path"} to={"."}>
               <Ripple
                 pt={{
                   root: {
@@ -100,7 +101,7 @@ export const DetailsBasic: React.FC<Props> = ({ pokemon }) => {
             {pokemon.pokemon_v2_pokemontypes.length > 1 &&
               pokemon.pokemon_v2_pokemontypes[1].pokemon_v2_type.id != -1 && (
                 <PokemonTag
-                  id={pokemon.pokemon_v2_pokemontypes[0].pokemon_v2_type.id}
+                  id={pokemon.pokemon_v2_pokemontypes[1].pokemon_v2_type.id}
                   id2={pokemon.pokemon_v2_pokemontypes[1].pokemon_v2_type.id}
                 ></PokemonTag>
               )}
@@ -121,6 +122,17 @@ export const DetailsBasic: React.FC<Props> = ({ pokemon }) => {
                   ]
                 }
               ></PokeIcon>
+            </div>
+            <div className="absolute z-20 flex w-fillAvailable -translate-x-20 translate-y-16 flex-row justify-center overflow-hidden">
+              <MultiDots
+                fill={
+                  cardButton[
+                    POKETYPES[
+                      pokemon.pokemon_v2_pokemontypes[0].pokemon_v2_type.id
+                    ]
+                  ]
+                }
+              ></MultiDots>
             </div>
           </section>
         </section>

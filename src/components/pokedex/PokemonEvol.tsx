@@ -4,13 +4,21 @@ import { getRoute } from "../../utils/utils.functions";
 import { PokemonTag } from "./PokemonTag";
 import BackIcon from "../../assets/BackIcon";
 import { Ripple } from "primereact/ripple";
+import { ScrollPanel } from "primereact/scrollpanel";
+import { Link } from "react-router-dom";
 
 interface Props {
   pokemon: PokemonV2Pokemon;
 }
 
 export const PokemonEvol: React.FC<Props> = ({ pokemon }) => {
-  return <div className="flex flex-col gap-y-4">{getPokemonLine(pokemon)}</div>;
+  return (
+    <div className="flex h-full flex-col overflow-x-hidden">
+      <ScrollPanel style={{ width: "100%", height: "100%" }}>
+        <article className="px-3">{getPokemonLine(pokemon)}</article>
+      </ScrollPanel>
+    </div>
+  );
 };
 
 function getPokemonLine(pokemon: PokemonV2Pokemon): JSX.Element {
@@ -83,55 +91,57 @@ const PokemonEvolItem: React.FC<{
   return (
     <>
       <article className="p-ripple border-round flex flex-col items-center rounded-xl">
-        <Ripple
-          pt={{
-            root: {
-              style: {
-                backgroundColor: "#245",
+        <Link relative={"path"} to={`../${pokemon.id}`}>
+          <Ripple
+            pt={{
+              root: {
+                style: {
+                  backgroundColor: "#245",
+                },
               },
-            },
-          }}
-        />
-        <img
-          className="pointer-events-none h-28 w-28 select-none overflow-visible"
-          src={getRoute(pokemon.id)}
-          alt={pokemon.name}
-        />
-        {/* {pokemon.pokemon_v2_pokemonevolutions.length > 0 && (
+            }}
+          />
+          <img
+            className="pointer-events-none h-28 w-28 select-none overflow-visible"
+            src={getRoute(pokemon.id)}
+            alt={pokemon.name}
+          />
+          {/* {pokemon.pokemon_v2_pokemonevolutions.length > 0 && (
           <h2 className="font-semibold">
             Lv.{pokemon.pokemon_v2_pokemonevolutions[0].min_level}
             {pokemon.pokemon_v2_pokemonevolutions[0].time_of_day}
             {pokemon.pokemon_v2_pokemonevolutions[0].pokemon_v2_item}
           </h2>
         )} */}
-        {<h2 className="font-semibold capitalize">{pokemon.name}</h2>}
-        <div className="flex w-36 flex-row flex-wrap justify-center gap-2 px-2">
-          <PokemonTag
-            padding="px-1 min-w-12"
-            id={
-              pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
-                .pokemon_v2_type.id
-            }
-            id2={
-              pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
-                .pokemon_v2_type.id
-            }
-          ></PokemonTag>
-          {pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.length >
-            1 && (
+          {<h2 className="font-semibold capitalize">{pokemon.name}</h2>}
+          <div className="flex w-36 flex-row flex-wrap justify-center gap-2 px-2">
             <PokemonTag
               padding="px-1 min-w-12"
               id={
-                pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
+                pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
                   .pokemon_v2_type.id
               }
               id2={
-                pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
+                pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
                   .pokemon_v2_type.id
               }
             ></PokemonTag>
-          )}
-        </div>
+            {pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.length >
+              1 && (
+              <PokemonTag
+                padding="px-1 min-w-12"
+                id={
+                  pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
+                    .pokemon_v2_type.id
+                }
+                id2={
+                  pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
+                    .pokemon_v2_type.id
+                }
+              ></PokemonTag>
+            )}
+          </div>
+        </Link>
       </article>
     </>
   );

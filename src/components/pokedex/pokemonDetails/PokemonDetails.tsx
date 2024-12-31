@@ -46,7 +46,16 @@ export const PokemonDetails: React.FC = () => {
           </TabView>
         </div>
       )}
-      {!selectedPokemon && <h2 className="w-1">Oieeee siiiiiiiiiiiiiii</h2>}
+      {!selectedPokemon && (
+        <div className="mx-4 mb-3 mt-8 h-fillAvailable overflow-hidden">
+          <TabView className="h-full">
+            <TabPanel header="About" className="h-fillAvailable pb-16" />
+            <TabPanel header="Base Stats" className="h-fillAvailable pb-16" />
+            <TabPanel header="Evolution" className="h-fillAvailable pb-16" />
+            <TabPanel header="Moves" />
+          </TabView>
+        </div>
+      )}
     </>
   );
 };

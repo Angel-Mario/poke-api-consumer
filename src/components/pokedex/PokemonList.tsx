@@ -13,9 +13,10 @@ import { QUERY_POKEMON_DETAILS } from "../../utils/consts.ts";
 
 interface Props {
   dialog: () => void;
+  idManager: (id: number) => void;
 }
 
-export const PokemonList: React.FC<Props> = ({ dialog }) => {
+export const PokemonList: React.FC<Props> = ({ dialog, idManager }) => {
   const pokemons = usePokemonListItemStore((state) => state.pokemons);
   const filterText = usePokemonListItemStore((state) => state.filter);
 
@@ -46,6 +47,7 @@ export const PokemonList: React.FC<Props> = ({ dialog }) => {
               pokemonListItemData={pokemonItem}
               key={`ListItem${pokemonItem.id}`}
               dialogManager={dialog}
+              pokemonIdManager={idManager}
             ></PokemonListItem>
           );
         })}

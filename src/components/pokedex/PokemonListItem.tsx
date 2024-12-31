@@ -13,11 +13,13 @@ import classNames from "classnames";
 interface PokemonListItemFunc {
   pokemonListItemData: PokemonListItemData;
   dialogManager: () => void;
+  pokemonIdManager: (id: number) => void;
 }
 
 export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
   pokemonListItemData,
   dialogManager,
+  pokemonIdManager,
 }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -25,7 +27,10 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
     pokemonListItemData.id && (
       <article
         className="p-ripple z-30 h-auto w-40 cursor-pointer rounded-2xl shadow-sm shadow-gray-600 hover:-translate-y-1 mlarge:w-48 2xl:w-56"
-        onClick={() => dialogManager()}
+        onClick={() => {
+          pokemonIdManager(pokemonListItemData.id);
+          dialogManager();
+        }}
         style={{
           backgroundColor:
             cardTheme[
@@ -54,7 +59,7 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
           />
           {/*Info */}
           <div className="flex flex-row justify-items-center">
-            <h1 className="ms-2 w-8/12 select-none py-1 text-lg font-bold capitalize text-white sm:text-xl 2xl:text-2xl">
+            <h1 className="ms-2 w-8/12 select-none text-clip py-1 text-lg font-bold capitalize text-white sm:text-xl 2xl:text-2xl">
               {pokemonListItemData.name}
             </h1>
             <h1 className="w-4/12 select-none justify-center text-center text-base font-bold text-gray-500 opacity-40 medium:text-lg 2xl:text-xl">
@@ -70,7 +75,7 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
                   .id != -1 && (
                   <PokemonTag
                     id={
-                      pokemonListItemData.pokemon_v2_pokemontypes[0]
+                      pokemonListItemData.pokemon_v2_pokemontypes[1]
                         .pokemon_v2_type.id
                     }
                     id2={
