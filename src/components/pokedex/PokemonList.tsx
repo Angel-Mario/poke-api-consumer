@@ -1,8 +1,8 @@
 import { PokemonListItem } from "./PokemonListItem";
 import { usePokemonListItemStore } from "../../utils/store.ts";
 import { VirtualScroller } from "primereact/virtualscroller";
-import { PokemonListItemData, PokemonListItemDetails } from "./types";
-import { useMediaQuery } from "@uidotdev/usehooks";
+
+import { useLocalStorage, useMediaQuery } from "@uidotdev/usehooks";
 import {
   filterPokemons,
   getPokemonDataDetails,
@@ -10,6 +10,8 @@ import {
 } from "../../utils/utils.functions.ts";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { QUERY_POKEMON_DETAILS } from "../../utils/consts.ts";
+import React from "react";
+import { PokemonListItemData, PokemonListItemDetails } from "./types";
 
 interface Props {
   idManager: (id: number) => void;
@@ -18,6 +20,9 @@ interface Props {
 export const PokemonList: React.FC<Props> = ({ idManager }) => {
   const pokemons = usePokemonListItemStore((state) => state.pokemons);
   const filterText = usePokemonListItemStore((state) => state.filter);
+  const ver = usePokemonListItemStore((state) => state.version);
+
+  console.log("mira ver", ver);
 
   const isSmallDevice = useMediaQuery("only screen and (max-width : 540px)");
 
@@ -38,7 +43,7 @@ export const PokemonList: React.FC<Props> = ({ idManager }) => {
   );
 
   const itemTemplate = (item: PokemonListItemData[]) => {
-    return item && item != undefined && item != null ? (
+    return item && true ? (
       <div className="mb-2 mt-1 flex w-fillAvailable flex-row flex-wrap justify-center gap-4">
         {item.map((pokemonItem) => {
           return (
@@ -57,10 +62,11 @@ export const PokemonList: React.FC<Props> = ({ idManager }) => {
 
   return (
     <>
-      <div className="mb-1 mt-1 h-full w-fillAvailable rounded-xl bg-white sm:h-fillAvailable sm:pe-2 sm:ps-3">
+      <div className="mb-1 mt-1 h-full w-fillAvailable rounded-xl bg-white pr-0 sm:h-fillAvailable sm:ps-3">
         <VirtualScroller
           items={filterPokemons(
             pokemons,
+            +ver,
             filterText,
             getColsByMedia(
               isSmallDevice,

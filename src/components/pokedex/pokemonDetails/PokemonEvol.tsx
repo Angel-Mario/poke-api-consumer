@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import { PokemonV2Pokemon, PokemonV2PokemonspecyElement } from "../types";
 import { getRoute } from "../../../utils/utils.functions";
 import { PokemonTag } from "../PokemonTag";
 import BackIcon from "../../../assets/BackIcon";
@@ -7,6 +6,7 @@ import { Ripple } from "primereact/ripple";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import { PokemonV2Pokemon, PokemonV2PokemonspecyElement } from "../types";
 
 interface Props {
   pokemon: PokemonV2Pokemon;
@@ -121,6 +121,7 @@ function getBasePokemon(
     (value) => value.evolves_from_species_id == null,
   );
 }
+
 function getEvolsPokemonFromId(
   pokemon: PokemonV2Pokemon,
   id: number,
@@ -131,6 +132,7 @@ function getEvolsPokemonFromId(
     );
   return temp.length > 0 ? temp : undefined;
 }
+
 function getEvolPrev(
   pokemon: PokemonV2Pokemon,
   id: number,
@@ -207,10 +209,12 @@ const PokemonEvolItem: React.FC<{
                 pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
                   .pokemon_v2_type.id
               }
+              responsive={false}
             ></PokemonTag>
             {pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.length >
               1 && (
               <PokemonTag
+                responsive={false}
                 padding="px-1 min-w-12"
                 id={
                   pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]

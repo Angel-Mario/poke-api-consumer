@@ -13,7 +13,7 @@ import {
 } from "../../../utils/utils.functions";
 import { PokemonTag } from "../PokemonTag";
 import { PokemonListItemData } from "../types";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MultiDots } from "../../../assets/MultiDots";
 
 interface Props {

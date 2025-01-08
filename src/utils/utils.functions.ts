@@ -1,3 +1,4 @@
+import React from "react";
 import {
   PokemonListItemData,
   PokemonListItemDetails,
@@ -29,6 +30,7 @@ export function getHeightInFeets(heightDec: number): string {
   const inches = ((heightDec - feets) * 12).toFixed(1);
   return feets + "'" + inches + `"`;
 }
+
 export function getWeightInHectograms(weight: number): string {
   return `${(weight * 0.22).toFixed(1)} lbs`;
 }
@@ -70,6 +72,7 @@ export function setPokemonDataDetails(pokemon: PokemonListItemDetails): void {
     console.log("Metio");
   }
 }
+
 export function getPokemonDataDetails(
   id: number = -1,
 ): PokemonListItemDetails | undefined {
@@ -88,14 +91,19 @@ export function getPokemonDataDetails(
 
 export function filterPokemons(
   pokemons: PokemonListItemData[],
+  version: number,
   filter: string,
   columns: number,
 ): PokemonListItemData[][] {
   const filtered = pokemons.filter((item) => {
     return (
-      filter.length == 0 ||
-      item.id.toString().includes(filter) ||
-      item.name.includes(filter.toLocaleLowerCase())
+      (filter.length == 0 ||
+        item.id.toString().includes(filter) ||
+        item.name.includes(filter.toLocaleLowerCase())) &&
+      item.id < 1026 &&
+      item.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0]
+        .pokemon_v2_version.id <=
+        version + 1
     );
   });
 
@@ -148,6 +156,7 @@ function setPokemonFavorite(id: number = -1): void {
     localStorage.setItem("pokFaves", JSON.stringify(Array.of(id)));
   }
 }
+
 function unsetPokemonFavorite(id: number = -1) {
   const storageString = localStorage.getItem("pokFaves");
   if (storageString && storageString != "undefined") {
@@ -178,6 +187,7 @@ export function getPokemonList(): PokemonListItemData[] | undefined {
     return undefined;
   }
 }
+
 export function getPokemonListItem(
   id: number = -1,
 ): PokemonListItemData | undefined {

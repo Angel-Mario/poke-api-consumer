@@ -7,6 +7,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { DetailsAbout } from "./DetailsAbout";
 import { DetailsStats } from "./DetailsStats";
 import { DetailsEvol } from "./DetailsEvol";
+import { DetailsMoves } from "./DetailsMoves";
 
 export const PokemonDetails: React.FC = () => {
   const selectedPokemonAll = useLoaderData() as
@@ -41,11 +42,7 @@ export const PokemonDetails: React.FC = () => {
             </TabPanel>
             {/* TabPanel Moves */}
             <TabPanel header="Moves">
-              <img
-                src="https://i.gifer.com/5IPv.gif"
-                alt="Pika"
-                className="w-96"
-              ></img>
+              <DetailsMoves pokemon={selectedPokemon} />
             </TabPanel>
           </TabView>
         </div>

@@ -9,10 +9,6 @@ import { Dialog } from "primereact/dialog";
 import { useEffect, useRef, useState } from "react";
 import { PokemonList } from "../components/pokedex/PokemonList.tsx";
 import { usePokemonListItemStore } from "../utils/store.ts";
-import {
-  PokemonListItemData,
-  PokemonListItemDataList,
-} from "../components/pokedex/types";
 import { QUERY_POKEMON_LIST } from "../utils/consts.ts";
 import { DetailsBasic } from "../components/pokedex/pokemonDetails/DetailsBasic.tsx";
 
@@ -22,6 +18,10 @@ import {
   getPokemonListItem,
   setPokemonList,
 } from "../utils/utils.functions.ts";
+import {
+  PokemonListItemData,
+  PokemonListItemDataList,
+} from "../components/pokedex/types";
 
 export default function Pokemon() {
   const setList = usePokemonListItemStore((state) => state.setList);
@@ -54,20 +54,27 @@ export default function Pokemon() {
 
   useEffect(() => {
     const splitedPaths = location.pathname.split("/");
+    console.log(splitedPaths);
 
     if (!isNaN(+splitedPaths[splitedPaths.length - 1])) {
       if (+splitedPaths[splitedPaths.length - 1] != 0) {
         setPokemonId(+splitedPaths[splitedPaths.length - 1]);
         if (!isDialogVisible) setDialogVisible(true);
       }
+      console.log("popo");
     } else {
       if (
         isDialogVisible &&
         splitedPaths[splitedPaths.length - 1].includes("pokemon")
       ) {
         setDialogVisible(false);
+        console.log("caca");
       }
+      console.log(isDialogVisible);
     }
+    return () => {
+      setDialogVisible(false);
+    };
   }, [location]);
 
   useEffect(() => {
@@ -160,7 +167,7 @@ async function requestPokemonList(): Promise<
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: QUERY_POKEMON_LIST,
+    body: JSON.stringify(QUERY_POKEMON_LIST),
   };
 
   const response = await fetch(

@@ -4,6 +4,7 @@ import { PokemonStatBar } from "./PokemonStatBar";
 import { cardTheme } from "../../../utils/card-aspects";
 import { getEffectivenessAgainstType } from "../../../utils/consts";
 import { PokemonTag } from "../PokemonTag";
+import React from "react";
 
 interface Props {
   pokemon: PokemonV2Pokemon;
@@ -50,7 +51,7 @@ export const DetailsStats: React.FC<Props> = ({ pokemon }) => {
                 base_stat={((): number => {
                   let value = 0;
                   pokemon.pokemon_v2_pokemonstats.forEach(
-                    (valueTemp) => (value += valueTemp.base_stat),
+                    (valueTemp) => (value += valueTemp.base_stat)
                   );
                   return value;
                 })()}
@@ -84,7 +85,7 @@ export const DetailsStats: React.FC<Props> = ({ pokemon }) => {
                       pokemon.pokemon_v2_pokemontypes[0].type_id - 1,
                       pokemon.pokemon_v2_pokemontypes.length == 1
                         ? -1
-                        : pokemon.pokemon_v2_pokemontypes[1].type_id - 1,
+                        : pokemon.pokemon_v2_pokemontypes[1].type_id - 1
                     )}
                   </div>
                 ))}

@@ -111,7 +111,7 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
               onLoad={() => setLoaded(true)}
               className={classNames(
                 "pointer-events-none z-0 col-span-8 h-20 w-20 select-none mlarge:h-28 mlarge:w-28 2xl:h-36 2xl:w-36",
-                loaded ? `` : "hidden w-0",
+                loaded ? `` : "",
               )}
               src={getRoute(pokemonListItemData.id)}
               alt={pokemonListItemData.name}

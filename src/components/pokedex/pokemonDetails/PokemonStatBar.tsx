@@ -1,5 +1,6 @@
 import { ProgressBar } from "primereact/progressbar";
 import { getBarColorIndividual } from "../../../utils/utils.functions";
+import React from "react";
 
 interface PokemonStatBar {
   base_stat: number;
@@ -8,10 +9,10 @@ interface PokemonStatBar {
 }
 
 export const PokemonStatBar: React.FC<PokemonStatBar> = ({
-  base_stat,
-  text,
-  total_stats,
-}) => {
+                                                           base_stat,
+                                                           text,
+                                                           total_stats
+                                                         }) => {
   return (
     <>
       <h2 className="col-span-3 opacity-60">{text}</h2>

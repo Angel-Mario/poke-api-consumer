@@ -1,6 +1,7 @@
 import { ScrollPanel } from "primereact/scrollpanel";
 import { PokemonV2Pokemon } from "../types";
 import { PokemonEvol } from "./PokemonEvol";
+import React from "react";
 
 interface Props {
   pokemon: PokemonV2Pokemon;

@@ -13,6 +13,13 @@ export interface PokemonListItemData {
       };
     },
   ];
+  pokemon_v2_pokemonspecy: {
+    pokemon_v2_pokemonspeciesflavortexts: {
+      pokemon_v2_version: {
+        id: number;
+      };
+    }[];
+  };
 }
 export interface PokemonListItemDataList {
   data: DataList;

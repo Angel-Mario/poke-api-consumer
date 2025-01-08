@@ -1,9 +1,10 @@
 import { ScrollPanel } from "primereact/scrollpanel";
 import {
   getHeightInFeets,
-  getWeightInHectograms,
+  getWeightInHectograms
 } from "../../../utils/utils.functions";
 import { PokemonV2Pokemon } from "../types";
+import React from "react";
 
 interface Props {
   pokemon: PokemonV2Pokemon;
@@ -41,7 +42,8 @@ export const DetailsAbout: React.FC<Props> = ({ pokemon }) => {
               </h2>
 
               <h2 className="col-span-3 opacity-60">Height</h2>
-              <h2 className="col-span-9">{`${getHeightInFeets(pokemon.height * 0.328084)} (${pokemon.height * 10}cm)`}</h2>
+              <h2
+                className="col-span-9">{`${getHeightInFeets(pokemon.height * 0.328084)} (${pokemon.height * 10}cm)`}</h2>
 
               <h2 className="col-span-3 opacity-60">Weigth</h2>
               <h2 className="col-span-9">{`${getWeightInHectograms(pokemon.weight)} (${pokemon.weight / 10}kg)`}</h2>
@@ -66,7 +68,7 @@ export const DetailsAbout: React.FC<Props> = ({ pokemon }) => {
                     >
                       {`${index != 0 ? ", " : ""}${eggGroup.pokemon_v2_egggroup.name}`}
                     </h2>
-                  ),
+                  )
                 )}
               </div>
             </section>

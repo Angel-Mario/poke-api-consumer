@@ -1,7 +1,27 @@
 import { cardButton, cardTheme } from "./card-aspects";
 
-export const QUERY_POKEMON_LIST =
-  '{"query":"{\\n  pokemon_v2_pokemon(order_by: {id: asc}) {\\n    id\\n    name\\n    pokemon_v2_pokemontypes {\\n      pokemon_v2_type {\\n        id\\n      }\\n    }\\n  }\\n}","variables":null}';
+export const QUERY_POKEMON_LIST = {
+  query: `query MyQuery {
+  pokemon_v2_pokemon(order_by: {id: asc}) {
+    id
+    name
+    pokemon_v2_pokemontypes {
+      pokemon_v2_type{
+        id
+      }
+    }
+    pokemon_v2_pokemonspecy {
+      pokemon_v2_pokemonspeciesflavortexts(limit: 1, order_by: {pokemon_v2_version: {id: asc}}) {
+        pokemon_v2_version {
+          id
+        }
+      }
+    }
+  }
+}`,
+  variables: null,
+  operationName: "MyQuery",
+};
 
 export const QUERY_POKEMON_DETAILS = (id: string) => {
   console.log(id, "id");
@@ -205,14 +225,24 @@ export const HeadArticles: {
   ],
 };
 
-// export const QUERY_POKEMON_DETAILS = (id: string) => {
-//   console.log(id, "id");
-//   return {
-//     query: `query queryDetails {\n  pokemon_v2_pokemon(where: {id: {_eq: ${id}}}) {\n    id\n    name\n    height\n    weight\n    pokemon_v2_pokemonabilities {\n      pokemon_v2_ability {\n        name\n      }\n    }\n    pokemon_v2_pokemonspecy {\n      pokemon_v2_pokemonegggroups {\n        pokemon_v2_egggroup {\n          name\n        }\n      }\n      pokemon_v2_evolutionchain {\n        pokemon_v2_pokemonspecies {\n          name\n          id\n        }\n      }\n    }\n    pokemon_v2_pokemoncries {\n      cries(path: "latest")\n    }\n    pokemon_v2_pokemonstats {\n      base_stat\n      pokemon_v2_stat {\n        name\n      }\n    }\n    pokemon_v2_pokemonmoves {\n      pokemon_v2_move {\n        name\n        power\n        pp\n        id\n      }\n    }\n  }\n}\n\n`,
-//     variables: null,
-//     operationName: "queryDetails",
-//   };
-// };
+// query MyQuery {
+//   pokemon_v2_pokemon(order_by: {id: asc}) {
+//     id
+//     name
+//     pokemon_v2_pokemontypes {
+//       pokemon_v2_type{
+//         id
+//       }
+//     }
+//     pokemon_v2_pokemonspecy {
+//       pokemon_v2_pokemonspeciesflavortexts(limit: 1) {
+//         pokemon_v2_version {
+//           id
+//         }
+//       }
+//     }
+//   }
+// }
 
 // query MyQuery {
 //   pokemon_v2_pokemon(where: {id: {_eq: 133}}) {
@@ -298,3 +328,227 @@ export const HeadArticles: {
 //     }
 //   }
 // }
+
+const versions = {
+  data: {
+    pokemon_v2_version: [
+      {
+        id: 1,
+        name: "red",
+      },
+      {
+        id: 2,
+        name: "blue",
+      },
+      {
+        id: 3,
+        name: "yellow",
+      },
+      {
+        id: 4,
+        name: "gold",
+      },
+      {
+        id: 5,
+        name: "silver",
+      },
+      {
+        id: 6,
+        name: "crystal",
+      },
+      {
+        id: 7,
+        name: "ruby",
+      },
+      {
+        id: 8,
+        name: "sapphire",
+      },
+      {
+        id: 9,
+        name: "emerald",
+      },
+      {
+        id: 10,
+        name: "firered",
+      },
+      {
+        id: 11,
+        name: "leafgreen",
+      },
+      {
+        id: 12,
+        name: "diamond",
+      },
+      {
+        id: 13,
+        name: "pearl",
+      },
+      {
+        id: 14,
+        name: "platinum",
+      },
+      {
+        id: 15,
+        name: "heartgold",
+      },
+      {
+        id: 16,
+        name: "soulsilver",
+      },
+      {
+        id: 17,
+        name: "black",
+      },
+      {
+        id: 18,
+        name: "white",
+      },
+      {
+        id: 19,
+        name: "colosseum",
+      },
+      {
+        id: 20,
+        name: "xd",
+      },
+      {
+        id: 21,
+        name: "black-2",
+      },
+      {
+        id: 22,
+        name: "white-2",
+      },
+      {
+        id: 23,
+        name: "x",
+      },
+      {
+        id: 24,
+        name: "y",
+      },
+      {
+        id: 25,
+        name: "omega-ruby",
+      },
+      {
+        id: 26,
+        name: "alpha-sapphire",
+      },
+      {
+        id: 27,
+        name: "sun",
+      },
+      {
+        id: 28,
+        name: "moon",
+      },
+      {
+        id: 29,
+        name: "ultra-sun",
+      },
+      {
+        id: 30,
+        name: "ultra-moon",
+      },
+      {
+        id: 31,
+        name: "lets-go-pikachu",
+      },
+      {
+        id: 32,
+        name: "lets-go-eevee",
+      },
+      {
+        id: 33,
+        name: "sword",
+      },
+      {
+        id: 34,
+        name: "shield",
+      },
+      {
+        id: 35,
+        name: "the-isle-of-armor",
+      },
+      {
+        id: 36,
+        name: "the-crown-tundra",
+      },
+      {
+        id: 37,
+        name: "brilliant-diamond",
+      },
+      {
+        id: 38,
+        name: "shining-pearl",
+      },
+      {
+        id: 39,
+        name: "legends-arceus",
+      },
+      {
+        id: 40,
+        name: "scarlet",
+      },
+      {
+        id: 41,
+        name: "violet",
+      },
+      {
+        id: 42,
+        name: "the-teal-mask",
+      },
+      {
+        id: 43,
+        name: "the-indigo-disk",
+      },
+    ],
+  },
+};
+export const GAME_VERSIONS: string[] = [
+  "red",
+  "blue",
+  "yellow",
+  "gold",
+  "silver",
+  "crystal",
+  "ruby",
+  "sapphire",
+  "emerald",
+  "firered",
+  "leafgreen",
+  "diamond",
+  "pearl",
+  "platinum",
+  "heartgold",
+  "soulsilver",
+  "black",
+  "white",
+  "colosseum",
+  "xd",
+  "black-2",
+  "white-2",
+  "x",
+  "y",
+  "omega-ruby",
+  "alpha-sapphire",
+  "sun",
+  "moon",
+  "ultra-sun",
+  "ultra-moon",
+  "lets-go-pikachu",
+  "lets-go-eevee",
+  "sword",
+  "shield",
+  "the-isle-of-armor",
+  "the-crown-tundra",
+  "brilliant-diamond",
+  "shining-pearl",
+  "legends-arceus",
+  "scarlet",
+  "violet",
+  "the-teal-mask",
+  "the-indigo-disk",
+];

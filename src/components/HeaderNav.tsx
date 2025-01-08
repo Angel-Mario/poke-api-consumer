@@ -1,11 +1,14 @@
-import { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import PokeIcon from "../assets/PokeIcon";
 import SearchIcon from "../assets/SearchIcon";
 import { usePokemonListItemStore } from "../utils/store";
 import { useDebounce } from "@uidotdev/usehooks";
-
+import ChevronIcon from "../assets/ChevronIcon";
+import { Ripple } from "primereact/ripple";
 export function HeaderNav({}) {
   const [query, setQuery] = useState("");
+  const [selectedVersion, setSelectedVersion] = useState("Red");
+
   const setFilter = usePokemonListItemStore((state) => state.setFilter);
   const debouncedSearchTerm = useDebounce(query, 250);
 
@@ -47,14 +50,15 @@ export function HeaderNav({}) {
         </form>
       </div>
 
-      <div className="relative flex h-full w-full flex-row-reverse overflow-hidden">
-        <h1 className="text sticky z-10 m-3 flex w-full place-items-end text-2xl font-bold text-white">
+      <div className="relative flex h-full w-full flex-row-reverse overflow-hidden sm:flex-col-reverse navBar:flex-row-reverse">
+        <h1 className="text sticky z-10 m-3 flex w-full place-items-end text-xl font-bold text-white navBar:text-2xl">
           What Pokemon
           <br />
           are you looking for?
         </h1>
-        <div className="absolute flex w-24 overflow-hidden sm:w-64 sm:-translate-y-20 sm:translate-x-20">
-          <PokeIcon fill="#e15b4d"></PokeIcon>
+
+        <div className="absolute flex w-52 overflow-hidden sm:w-60 sm:translate-x-6 sm:translate-y-7 navBar:-translate-y-20 navBar:translate-x-20">
+          <PokeIcon fill=" #e15b4d"></PokeIcon>
         </div>
       </div>
     </nav>
