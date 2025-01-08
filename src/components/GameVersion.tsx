@@ -23,9 +23,9 @@ export default function GameVersion() {
   }, [gameVersion]);
 
   return (
-    <div className="absolute z-50 m-2 flex h-fit w-fillAvailable flex-row justify-end sm:h-fillAvailable sm:w-fit sm:items-end sm:justify-end">
+    <div className="fixed right-4 top-4 z-50 flex h-fit flex-row sm:bottom-4 sm:left-2 sm:right-auto sm:top-auto">
       <div
-        className="p-ripple -me-1 flex h-7 w-6 content-center rounded-s-full"
+        className="p-ripple -me-1 flex h-7 w-6 content-center rounded-s-full sm:w-4 md:w-6"
         style={{ background: "#3F3F3F" }}
         onClick={() => {
           setGameVersion(manageChange(+gameVersion - 1));
@@ -35,13 +35,13 @@ export default function GameVersion() {
         <ChevronIcon fill="#ffffff"></ChevronIcon>
       </div>
       <h2
-        className="line-clamp-1 h-7 w-36 px-2 text-center text-xl font-bold capitalize text-white"
+        className="line-clamp-1 h-7 w-36 px-2 text-center text-xl font-bold capitalize text-white sm:w-32 md:w-36"
         style={{ background: "#3F3F3F" }}
       >
         {GAME_VERSIONS[+gameVersion]}
       </h2>
       <div
-        className="p-ripple -ms-1 flex h-7 w-6 content-center rounded-e-full"
+        className="p-ripple -ms-1 flex h-7 w-6 content-center rounded-e-full sm:w-4 md:w-6"
         style={{ background: "#3F3F3F" }}
         onClick={() => {
           setGameVersion(manageChange(+gameVersion + 1));

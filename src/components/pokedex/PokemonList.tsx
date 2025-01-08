@@ -2,7 +2,7 @@ import { PokemonListItem } from "./PokemonListItem";
 import { usePokemonListItemStore } from "../../utils/store.ts";
 import { VirtualScroller } from "primereact/virtualscroller";
 
-import { useLocalStorage, useMediaQuery } from "@uidotdev/usehooks";
+import { useMediaQuery } from "@uidotdev/usehooks";
 import {
   filterPokemons,
   getPokemonDataDetails,
@@ -22,12 +22,10 @@ export const PokemonList: React.FC<Props> = ({ idManager }) => {
   const filterText = usePokemonListItemStore((state) => state.filter);
   const ver = usePokemonListItemStore((state) => state.version);
 
-  console.log("mira ver", ver);
-
-  const isSmallDevice = useMediaQuery("only screen and (max-width : 540px)");
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 544px)");
 
   const isSemiSmallDevice = useMediaQuery(
-    "only screen and (min-width : 540px) and (max-width : 640px)",
+    "only screen and (min-width : 545px) and (max-width : 640px)",
   );
   const isSemiMediumDevice = useMediaQuery(
     "only screen and (min-width : 641px) and (max-width : 768px)",
@@ -128,10 +126,15 @@ const getPokemonDetails = (id: string) => {
 async function requestPokemonDetails(
   id: string,
 ): Promise<PokemonListItemDetails | undefined> {
+  let version = localStorage.getItem("gameVer");
+  if (version == undefined) {
+    version = "0";
+  }
+
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(QUERY_POKEMON_DETAILS(id)),
+    body: JSON.stringify(QUERY_POKEMON_DETAILS(id, +version + 1)),
   };
 
   const response = await fetch(

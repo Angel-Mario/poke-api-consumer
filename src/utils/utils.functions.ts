@@ -59,16 +59,24 @@ export function getIfPokemonFavorite(id: number = -1): boolean {
 }
 
 export function setPokemonDataDetails(pokemon: PokemonListItemDetails): void {
-  const storageString = localStorage.getItem("pokListDetails");
+  const storageString = localStorage.getItem(
+    `pokListDetails-${getGameVersion()}`,
+  );
   if (storageString && storageString != "undefined") {
     let storage = <PokemonListItemDetails[]>JSON.parse(storageString);
     if (storage) {
       storage.push(pokemon);
-      localStorage.setItem("pokListDetails", JSON.stringify(storage));
+      localStorage.setItem(
+        `pokListDetails-${getGameVersion()}`,
+        JSON.stringify(storage),
+      );
       console.log("Metio");
     }
   } else {
-    localStorage.setItem("pokListDetails", JSON.stringify(Array.of(pokemon)));
+    localStorage.setItem(
+      `pokListDetails-${getGameVersion()}`,
+      JSON.stringify(Array.of(pokemon)),
+    );
     console.log("Metio");
   }
 }
@@ -76,7 +84,9 @@ export function setPokemonDataDetails(pokemon: PokemonListItemDetails): void {
 export function getPokemonDataDetails(
   id: number = -1,
 ): PokemonListItemDetails | undefined {
-  const storageString = localStorage.getItem("pokListDetails");
+  const storageString = localStorage.getItem(
+    `pokListDetails-${getGameVersion()}`,
+  );
   if (
     storageString &&
     storageString != "undefined" &&
@@ -167,6 +177,14 @@ function unsetPokemonFavorite(id: number = -1) {
         JSON.stringify(storage.filter((value) => value !== id)),
       );
     }
+  }
+}
+function getGameVersion(): string {
+  const storageString = localStorage.getItem("gameVer");
+  if (storageString && storageString != "undefined") {
+    return storageString;
+  } else {
+    return "1";
   }
 }
 

@@ -3,11 +3,8 @@ import PokeIcon from "../assets/PokeIcon";
 import SearchIcon from "../assets/SearchIcon";
 import { usePokemonListItemStore } from "../utils/store";
 import { useDebounce } from "@uidotdev/usehooks";
-import ChevronIcon from "../assets/ChevronIcon";
-import { Ripple } from "primereact/ripple";
 export function HeaderNav({}) {
   const [query, setQuery] = useState("");
-  const [selectedVersion, setSelectedVersion] = useState("Red");
 
   const setFilter = usePokemonListItemStore((state) => state.setFilter);
   const debouncedSearchTerm = useDebounce(query, 250);
@@ -51,7 +48,7 @@ export function HeaderNav({}) {
       </div>
 
       <div className="relative flex h-full w-full flex-row-reverse overflow-hidden sm:flex-col-reverse navBar:flex-row-reverse">
-        <h1 className="text sticky z-10 m-3 flex w-full place-items-end text-xl font-bold text-white navBar:text-2xl">
+        <h1 className="text sticky z-10 m-3 flex w-full place-items-end text-xl font-bold text-gray-100 navBar:text-2xl">
           What Pokemon
           <br />
           are you looking for?

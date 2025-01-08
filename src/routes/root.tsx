@@ -1,7 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
-import { Ripple } from "primereact/ripple";
-import ChevronIcon from "../assets/ChevronIcon";
 import GameVersion from "../components/GameVersion";
 
 export default function Root() {

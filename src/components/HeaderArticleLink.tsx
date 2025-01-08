@@ -21,7 +21,7 @@ export function HeaderArticleLink({
           backgroundColor: theme,
         }}
         className={twMerge(
-          "p-ripple h-11 w-fit min-w-20 rounded-xl text-lg font-bold text-white sm:me-0 sm:h-fit sm:w-full",
+          "p-ripple h-11 w-fit min-w-20 rounded-xl text-lg font-bold text-gray-100 sm:me-0 sm:h-fit sm:w-full",
           children === "Types" ? "me-6" : "",
         )}
       >

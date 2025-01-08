@@ -23,10 +23,23 @@ export const QUERY_POKEMON_LIST = {
   operationName: "MyQuery",
 };
 
-export const QUERY_POKEMON_DETAILS = (id: string) => {
+const getGenerationByVersion = (version: number) => {
+  generationVersion.pokemon_v2_generation.forEach((generation) => {
+    generation.pokemon_v2_versiongroups.forEach((versiongroup) => {
+      if (versiongroup.id == version) {
+        return generation.id;
+      }
+    });
+  });
+
+  return 1;
+};
+
+export const QUERY_POKEMON_DETAILS = (id: string, version: number) => {
   console.log(id, "id");
   return {
-    query: `query queryDetails {\n  pokemon_v2_pokemon(where: {id: {_eq: ${id}}}) {
+    query: `query queryDetails {
+  pokemon_v2_pokemon(where: {id: {_eq: ${id}}}) {
     id
     name
     height
@@ -74,7 +87,7 @@ export const QUERY_POKEMON_DETAILS = (id: string) => {
         }
         id
       }
-      pokemon_v2_pokemonspeciesflavortexts(where: {pokemon_v2_language: {name: {_eq: "en"}}}, limit: 1) {
+      pokemon_v2_pokemonspeciesflavortexts(where: {pokemon_v2_language: {name: {_eq: "en"}}, pokemon_v2_version: {id: {_eq: ${version}}}}) {
         flavor_text
       }
       pokemon_v2_pokemonspeciesnames(where: {language_id: {_eq: 9}}) {
@@ -90,16 +103,19 @@ export const QUERY_POKEMON_DETAILS = (id: string) => {
         name
       }
     }
-    pokemon_v2_pokemonmoves(order_by: {level: asc_nulls_last}, where: {pokemon_v2_move: {generation_id: {_eq: 1}}, _not: {level: {_eq: 0}}}, distinct_on: level) {
+    pokemon_v2_pokemonmoves(order_by: {level: asc_nulls_last}, where: {pokemon_v2_move: {generation_id: {_eq: ${getGenerationByVersion(version)}}}, _not: {level: {_eq: 0}}, pokemon_v2_versiongroup: {id: {_eq: ${version}}}}) {
       pokemon_v2_move {
         name
         power
         pp
-        pokemon_v2_moveflavortexts(where: {language_id: {_eq: 9}}, limit: 1) {
-          flavor_text
-        }
         move_damage_class_id
         type_id
+        generation_id
+        pokemon_v2_moveeffect {
+          pokemon_v2_moveeffecteffecttexts {
+            short_effect
+          }
+        }
       }
       level
       move_id
@@ -108,7 +124,8 @@ export const QUERY_POKEMON_DETAILS = (id: string) => {
       type_id
     }
   }
-}\n\n`,
+}
+`,
     variables: null,
     operationName: "queryDetails",
   };
@@ -159,6 +176,137 @@ const rawData = [
   [1, 0.5, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 0.5, 0.5],
   [1, 2, 1, 0.5, 1, 1, 1, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 2, 2, 1],
 ];
+
+const generationVersion = {
+  pokemon_v2_generation: [
+    {
+      id: 1,
+      pokemon_v2_versiongroups: [
+        {
+          id: 1,
+        },
+        {
+          id: 2,
+        },
+      ],
+    },
+    {
+      id: 2,
+      pokemon_v2_versiongroups: [
+        {
+          id: 3,
+        },
+        {
+          id: 4,
+        },
+      ],
+    },
+    {
+      id: 3,
+      pokemon_v2_versiongroups: [
+        {
+          id: 5,
+        },
+        {
+          id: 6,
+        },
+        {
+          id: 7,
+        },
+        {
+          id: 12,
+        },
+        {
+          id: 13,
+        },
+      ],
+    },
+    {
+      id: 4,
+      pokemon_v2_versiongroups: [
+        {
+          id: 8,
+        },
+        {
+          id: 9,
+        },
+        {
+          id: 10,
+        },
+      ],
+    },
+    {
+      id: 5,
+      pokemon_v2_versiongroups: [
+        {
+          id: 11,
+        },
+        {
+          id: 14,
+        },
+      ],
+    },
+    {
+      id: 6,
+      pokemon_v2_versiongroups: [
+        {
+          id: 15,
+        },
+        {
+          id: 16,
+        },
+      ],
+    },
+    {
+      id: 7,
+      pokemon_v2_versiongroups: [
+        {
+          id: 17,
+        },
+        {
+          id: 18,
+        },
+        {
+          id: 19,
+        },
+      ],
+    },
+    {
+      id: 8,
+      pokemon_v2_versiongroups: [
+        {
+          id: 20,
+        },
+        {
+          id: 21,
+        },
+        {
+          id: 22,
+        },
+        {
+          id: 23,
+        },
+        {
+          id: 24,
+        },
+      ],
+    },
+    {
+      id: 9,
+      pokemon_v2_versiongroups: [
+        {
+          id: 25,
+        },
+        {
+          id: 26,
+        },
+        {
+          id: 27,
+        },
+      ],
+    },
+  ],
+};
 
 // function to get the effectiveness of one or two types:
 export const getEffectiveness = (pokemontype: number, against: number) => {
@@ -235,7 +383,7 @@ export const HeadArticles: {
 //       }
 //     }
 //     pokemon_v2_pokemonspecy {
-//       pokemon_v2_pokemonspeciesflavortexts(limit: 1) {
+//       pokemon_v2_pokemonspeciesflavortexts(limit: 1, order_by: {pokemon_v2_version: {id: asc}}) {
 //         pokemon_v2_version {
 //           id
 //         }
@@ -319,6 +467,94 @@ export const HeadArticles: {
 //         }
 //         move_damage_class_id
 //         type_id
+//       }
+//       level
+//       move_id
+//     }
+//     pokemon_v2_pokemontypes {
+//       type_id
+//     }
+//   }
+// }
+
+// query MyQuery {
+//   pokemon_v2_pokemon(where: {id: {_eq: 133}}) {
+//     id
+//     name
+//     height
+//     weight
+//     pokemon_v2_pokemonabilities {
+//       pokemon_v2_ability {
+//         name
+//       }
+//     }
+//     pokemon_v2_pokemonspecy {
+//       pokemon_v2_pokemonegggroups {
+//         pokemon_v2_egggroup {
+//           name
+//         }
+//       }
+//       pokemon_v2_evolutionchain {
+//         pokemon_v2_pokemonspecies {
+//           name
+//           id
+//           evolves_from_species_id
+//           pokemon_v2_pokemonevolutions {
+//             evolution_item_id
+//             time_of_day
+//             held_item_id
+//             id
+//             min_level
+//             needs_overworld_rain
+//             pokemon_v2_item {
+//               id
+//               name
+//             }
+//             pokemon_v2_gender {
+//               id
+//               name
+//             }
+//           }
+//           pokemon_v2_pokemons {
+//             id
+//             pokemon_v2_pokemontypes {
+//               pokemon_v2_type {
+//                 id
+//               }
+//             }
+//           }
+//         }
+//         id
+//       }
+//       pokemon_v2_pokemonspeciesflavortexts(where: {pokemon_v2_language: {name: {_eq: "en"}}, pokemon_v2_version: {id: {_eq: 1}}}) {
+//         flavor_text
+//       }
+//       pokemon_v2_pokemonspeciesnames(where: {language_id: {_eq: 9}}) {
+//         genus
+//       }
+//     }
+//     pokemon_v2_pokemoncries {
+//       cries(path: "latest")
+//     }
+//     pokemon_v2_pokemonstats {
+//       base_stat
+//       pokemon_v2_stat {
+//         name
+//       }
+//     }
+//     pokemon_v2_pokemonmoves(order_by: {level: asc_nulls_last}, where: {pokemon_v2_move: {generation_id: {_eq: 1}}, _not: {level: {_eq: 0}}, pokemon_v2_versiongroup: {id: {_eq: 1}}}) {
+//       pokemon_v2_move {
+//         name
+//         power
+//         pp
+//         move_damage_class_id
+//         type_id
+//         generation_id
+//         pokemon_v2_moveeffect {
+//           pokemon_v2_moveeffecteffecttexts {
+//             short_effect
+//           }
+//         }
 //       }
 //       level
 //       move_id
@@ -507,6 +743,8 @@ const versions = {
     ],
   },
 };
+
+//index + 1
 export const GAME_VERSIONS: string[] = [
   "red",
   "blue",

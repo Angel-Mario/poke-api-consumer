@@ -10,26 +10,30 @@ interface Props {
   rounded?: string;
   padding?: string;
   responsive?: boolean;
+  classes?: string;
 }
 
 export const PokemonTag: React.FC<Props> = ({
-                                              id,
-                                              id2,
-                                              rounded = "rounded-2xl",
-                                              padding = "px-1",
-                                              responsive = true
-                                            }) => {
+  id,
+  id2,
+  rounded = "rounded-2xl",
+  padding = "px-1",
+  responsive = true,
+  classes = "",
+}) => {
   return (
     <>
       <div
         className={classNames(rounded, padding, "capitalize")}
         style={{
-          backgroundColor: cardButton[POKETYPES[id]]
+          backgroundColor: cardButton[POKETYPES[id]],
         }}
       >
         <h3
           className={twMerge(
-            "select-none text-center font-semibold text-white ", responsive ? "2xl:text-xl" : ""
+            "select-none text-center font-semibold text-gray-100",
+            responsive ? "2xl:text-xl" : "",
+            classes,
           )}
         >
           {POKETYPES[id2]}
