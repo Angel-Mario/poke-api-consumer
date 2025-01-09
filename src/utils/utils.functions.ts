@@ -2,8 +2,8 @@ import React from "react";
 import {
   PokemonListItemData,
   PokemonListItemDetails,
-} from "../components/pokedex/types";
-import { POKETYPES } from "./consts";
+} from "../components/pokemons/types";
+import { generationVersion, POKETYPES } from "./consts";
 
 const src = `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/`;
 
@@ -108,7 +108,6 @@ export function filterPokemons(
 
   return toTwoDimensionalArray(filtered, columns);
 }
-
 export function filterListPokemons(
   pokemons: PokemonListItemData[],
   version: number,
@@ -132,23 +131,21 @@ export function filterListPokemons(
         (item.pokemon_v2_pokemontypes[1] &&
           item.pokemon_v2_pokemontypes[1].pokemon_v2_type.id == key)) &&
       item.id < 1026 &&
-      isOntheCurrentVersion(item, version)
+      isOntheCurrentVersion(
+        item.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0]
+          .pokemon_v2_version.id,
+        version,
+      )
     );
   });
 
   return filtered;
 }
 
-export function isOntheCurrentVersion(
-  pokemon: PokemonListItemData,
-  version: number,
-): boolean {
-  return (
-    pokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0]
-      .pokemon_v2_version.id <=
-    version + 1
-  );
+export function isOntheCurrentVersion(id: number, version: number): boolean {
+  return id <= version + 1;
 }
+
 export function isOntheCurrentVersionById(
   id: number,
   version: number,
@@ -164,23 +161,6 @@ export function isOntheCurrentVersionById(
 }
 
 type ObjectArray = Record<string, any>[];
-
-function toTwoDimensionalArray(
-  array: ObjectArray,
-  columns: number,
-): PokemonListItemData[][] {
-  const result: any[][] = [];
-  let rowIndex = 0;
-
-  for (let i = 0; i < array.length; i++) {
-    if (i % columns === 0) {
-      result.push([]);
-      rowIndex++;
-    }
-    result[rowIndex - 1].push(array[i]);
-  }
-  return result;
-}
 
 export function manageHeartClick(
   isFavorite: boolean,
@@ -220,14 +200,6 @@ function unsetPokemonFavorite(id: number = -1) {
     }
   }
 }
-export function getGameVersion(): string {
-  const storageString = localStorage.getItem("gameVer");
-  if (storageString && storageString != "undefined") {
-    return storageString;
-  } else {
-    return "1";
-  }
-}
 
 export function setPokemonList(pokemons: PokemonListItemData[]): void {
   localStorage.setItem("pokList", JSON.stringify(pokemons));
@@ -262,3 +234,42 @@ export function getPokemonListItem(
     return undefined;
   }
 }
+
+//Global Shared
+export function toTwoDimensionalArray(
+  array: ObjectArray,
+  columns: number,
+): any[][] {
+  const result: any[][] = [];
+  let rowIndex = 0;
+
+  for (let i = 0; i < array.length; i++) {
+    if (i % columns === 0) {
+      result.push([]);
+      rowIndex++;
+    }
+    result[rowIndex - 1].push(array[i]);
+  }
+  return result;
+}
+
+export function getGameVersion(): string {
+  const storageString = localStorage.getItem("gameVer");
+  if (storageString && storageString != "undefined") {
+    return storageString;
+  } else {
+    return "1";
+  }
+}
+
+export const getGenerationByVersion = (version: number) => {
+  generationVersion.pokemon_v2_generation.forEach((generation) => {
+    generation.pokemon_v2_versiongroups.forEach((versiongroup) => {
+      if (versiongroup.id == version) {
+        return generation.id;
+      }
+    });
+  });
+
+  return 1;
+};

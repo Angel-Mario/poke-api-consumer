@@ -11,7 +11,7 @@ import {
   getRoute,
   manageHeartClick,
 } from "../../../utils/utils.functions";
-import { PokemonTag } from "../PokemonTag";
+import { PokemonTag } from "../../shared/PokemonTag";
 import { PokemonListItemData } from "../types";
 import React, { useEffect, useState } from "react";
 import { MultiDots } from "../../../assets/MultiDots";

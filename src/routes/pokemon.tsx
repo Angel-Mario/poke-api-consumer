@@ -7,10 +7,10 @@ import {
 } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
 import { useEffect, useRef, useState } from "react";
-import { PokemonList } from "../components/pokedex/PokemonList.tsx";
+import { PokemonList } from "../components/pokemons/PokemonList.tsx";
 import { usePokemonListItemStore } from "../utils/store.ts";
 import { QUERY_POKEMON_LIST } from "../utils/consts.ts";
-import { DetailsBasic } from "../components/pokedex/pokemonDetails/DetailsBasic.tsx";
+import { DetailsBasic } from "../components/pokemons/pokemonDetails/DetailsBasic.tsx";
 
 import { ProgressSpinner } from "primereact/progressspinner";
 import {
@@ -21,7 +21,7 @@ import {
 import {
   PokemonListItemData,
   PokemonListItemDataList,
-} from "../components/pokedex/types";
+} from "../components/pokemons/types";
 
 export default function Pokemon() {
   const setList = usePokemonListItemStore((state) => state.setList);

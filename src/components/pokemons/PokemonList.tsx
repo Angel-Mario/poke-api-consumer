@@ -2,42 +2,60 @@ import { PokemonListItem } from "./PokemonListItem";
 import { usePokemonListItemStore } from "../../utils/store.ts";
 import { VirtualScroller } from "primereact/virtualscroller";
 
-import { useMediaQuery } from "@uidotdev/usehooks";
 import {
   filterPokemons,
+  getGenerationByVersion,
   getPokemonDataDetails,
   setPokemonDataDetails,
 } from "../../utils/utils.functions.ts";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { QUERY_POKEMON_DETAILS } from "../../utils/consts.ts";
-import React from "react";
+import React, { useMemo } from "react";
 import { PokemonListItemData, PokemonListItemDetails } from "./types";
+import useMediaQueryHook from "../../hooks/useMediaQueryHook.ts";
+import useFilterStoreHook from "../../hooks/useFilterStoreHook.ts";
 
 interface Props {}
 
 export const PokemonList: React.FC<Props> = ({}) => {
   const pokemons = usePokemonListItemStore((state) => state.pokemons);
 
-  const filterText = usePokemonListItemStore((state) => state.filter);
-  const ver = usePokemonListItemStore((state) => state.version);
+  const {
+    isSmallDevice,
+    isSemiSmallDevice,
+    isSemiMediumDevice,
+    isMediumDevice,
+    isLargeDevice,
+    isExtraLargeDevice,
+  } = useMediaQueryHook();
 
-  const isSmallDevice = useMediaQuery("only screen and (max-width : 544px)");
+  const { filterText, ver } = useFilterStoreHook();
 
-  const isSemiSmallDevice = useMediaQuery(
-    "only screen and (min-width : 545px) and (max-width : 640px)",
-  );
-  const isSemiMediumDevice = useMediaQuery(
-    "only screen and (min-width : 641px) and (max-width : 768px)",
-  );
-  const isMediumDevice = useMediaQuery(
-    "only screen and (min-width : 768px) and (max-width : 992px)",
-  );
-  const isLargeDevice = useMediaQuery(
-    "only screen and (min-width : 993px) and (max-width : 1314px)",
-  );
-  const isExtraLargeDevice = useMediaQuery(
-    "only screen and (min-width : 1314px)",
-  );
+  const filteredPokemons = useMemo(() => {
+    return filterPokemons(
+      pokemons,
+      +ver,
+      filterText,
+      getColsByMedia(
+        isSmallDevice,
+        isSemiSmallDevice,
+        isSemiMediumDevice,
+        isMediumDevice,
+        isLargeDevice,
+        isExtraLargeDevice,
+      ),
+    );
+  }, [
+    pokemons,
+    filterText,
+    ver,
+    isSmallDevice,
+    isSemiSmallDevice,
+    isSemiMediumDevice,
+    isMediumDevice,
+    isLargeDevice,
+    isExtraLargeDevice,
+  ]);
 
   const itemTemplate = (item: PokemonListItemData[]) => {
     return item && true ? (
@@ -60,21 +78,11 @@ export const PokemonList: React.FC<Props> = ({}) => {
     <>
       <div className="mb-1 mt-1 h-full w-fillAvailable rounded-xl bg-white pr-0 sm:h-fillAvailable sm:ps-3">
         <VirtualScroller
-          items={filterPokemons(
-            pokemons,
-            +ver,
-            filterText,
-            getColsByMedia(
-              isSmallDevice,
-              isSemiSmallDevice,
-              isSemiMediumDevice,
-              isMediumDevice,
-              isLargeDevice,
-              isExtraLargeDevice,
-            ),
-          )}
+          items={filteredPokemons}
           columns={1}
           itemSize={120}
+          showSpacer
+          numToleratedItems={1}
           itemTemplate={itemTemplate}
           className="border-1 surface-border border-round h-fillAvailable w-fillAvailable"
           style={{
@@ -132,7 +140,13 @@ async function requestPokemonDetails(
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(QUERY_POKEMON_DETAILS(id, +version + 1)),
+    body: JSON.stringify(
+      QUERY_POKEMON_DETAILS(
+        id,
+        +version + 1,
+        getGenerationByVersion(+version + 1),
+      ),
+    ),
   };
 
   const response = await fetch(

@@ -1,6 +1,6 @@
 import { HeaderArticleLink } from "./HeaderArticleLink";
 import { HeaderNav } from "./HeaderNav";
-import { HeadArticles } from "../utils/consts.ts";
+import { HeadArticles } from "../../utils/consts.ts";
 import { ScrollPanel } from "primereact/scrollpanel";
 
 export default function Header() {

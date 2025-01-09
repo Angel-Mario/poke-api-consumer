@@ -6,7 +6,8 @@ import { TAILWINDVALUE } from "../utils/tailwindValue";
 
 // loaders
 import Pokemon, { loader as pokedexLoader } from "../routes/pokemon";
-import { loader as pokedexItemDetailsLoader } from "../components/pokedex/PokemonList";
+import { loader as pokedexItemDetailsLoader } from "../components/pokemons/PokemonList";
+import { loader as movesLoader } from "../routes/moves";
 
 export const ROUTER = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ export const ROUTER = createBrowserRouter([
             loader: pokedexItemDetailsLoader,
             lazy: async () => {
               let { PokemonDetails } = await import(
-                "../components/pokedex/pokemonDetails/PokemonDetails.tsx"
+                "../components/pokemons/pokemonDetails/PokemonDetails.tsx"
               );
               return { Component: PokemonDetails };
             },
@@ -38,7 +39,12 @@ export const ROUTER = createBrowserRouter([
       },
       {
         path: "moves/",
-        element: <Pokemon />,
+        loader: movesLoader,
+        lazy: async () => {
+          let { default: Moves } = await import("./moves.tsx");
+          console.log(Moves);
+          return { Component: Moves };
+        },
       },
       {
         path: "abilities/",
@@ -66,7 +72,7 @@ export const ROUTER = createBrowserRouter([
             loader: pokedexItemDetailsLoader,
             lazy: async () => {
               let { PokemonDetails } = await import(
-                "../components/pokedex/pokemonDetails/PokemonDetails.tsx"
+                "../components/pokemons/pokemonDetails/PokemonDetails.tsx"
               );
               return { Component: PokemonDetails };
             },
@@ -75,7 +81,11 @@ export const ROUTER = createBrowserRouter([
       },
       {
         path: "moves/",
-        element: <Pokemon />,
+        loader: movesLoader,
+        lazy: async () => {
+          let { MoveList } = await import("../components/moves/MoveList.tsx");
+          return { Component: MoveList };
+        },
       },
       {
         path: "abilities/",

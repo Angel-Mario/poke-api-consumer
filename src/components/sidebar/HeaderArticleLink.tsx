@@ -1,6 +1,6 @@
 import { Ripple } from "primereact/ripple";
 import { Link } from "react-router-dom";
-import PokeIcon from "../assets/PokeIcon";
+import PokeIcon from "../../assets/PokeIcon";
 import { twMerge } from "tailwind-merge";
 
 export function HeaderArticleLink({

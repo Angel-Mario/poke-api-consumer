@@ -23,19 +23,32 @@ export const QUERY_POKEMON_LIST = {
   operationName: "MyQuery",
 };
 
-const getGenerationByVersion = (version: number) => {
-  generationVersion.pokemon_v2_generation.forEach((generation) => {
-    generation.pokemon_v2_versiongroups.forEach((versiongroup) => {
-      if (versiongroup.id == version) {
-        return generation.id;
+export const QUERY_MOVES_LIST = {
+  query: `query MyQuery {
+  pokemon_v2_move {
+    id
+    name
+    power
+    pp
+    move_damage_class_id
+    type_id
+    generation_id
+    pokemon_v2_moveeffect {
+      pokemon_v2_moveeffecteffecttexts {
+        short_effect
       }
-    });
-  });
-
-  return 1;
+    }
+  }
+}`,
+  variables: null,
+  operationName: "MyQuery",
 };
 
-export const QUERY_POKEMON_DETAILS = (id: string, version: number) => {
+export const QUERY_POKEMON_DETAILS = (
+  id: string,
+  version: number,
+  generation: number,
+) => {
   return {
     query: `query queryDetails {
   pokemon_v2_pokemon(where: {id: {_eq: ${id}}}) {
@@ -102,7 +115,7 @@ export const QUERY_POKEMON_DETAILS = (id: string, version: number) => {
         name
       }
     }
-    pokemon_v2_pokemonmoves(order_by: {level: asc_nulls_last}, where: {pokemon_v2_move: {generation_id: {_eq: ${getGenerationByVersion(version)}}}, _not: {level: {_eq: 0}}, pokemon_v2_versiongroup: {id: {_eq: ${version}}}}) {
+    pokemon_v2_pokemonmoves(order_by: {level: asc_nulls_last}, where: {pokemon_v2_move: {generation_id: {_eq: ${generation}}}, _not: {level: {_eq: 0}}, pokemon_v2_versiongroup: {id: {_eq: ${version}}}}) {
       pokemon_v2_move {
         name
         power
@@ -176,7 +189,7 @@ const rawData = [
   [1, 2, 1, 0.5, 1, 1, 1, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 2, 2, 1],
 ];
 
-const generationVersion = {
+export const generationVersion = {
   pokemon_v2_generation: [
     {
       id: 1,

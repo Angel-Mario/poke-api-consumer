@@ -4,7 +4,7 @@ import {
   getRoute,
   isOntheCurrentVersionById,
 } from "../../../utils/utils.functions";
-import { PokemonTag } from "../PokemonTag";
+import { PokemonTag } from "../../shared/PokemonTag";
 import BackIcon from "../../../assets/BackIcon";
 import { Ripple } from "primereact/ripple";
 import { ScrollPanel } from "primereact/scrollpanel";

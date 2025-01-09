@@ -1,12 +1,12 @@
 import React, { SetStateAction, useEffect, useState } from "react";
-import PokeIcon from "../assets/PokeIcon";
-import SearchIcon from "../assets/SearchIcon";
-import { usePokemonListItemStore } from "../utils/store";
+import PokeIcon from "../../assets/PokeIcon";
+import SearchIcon from "../../assets/SearchIcon";
+import { useFilterStore } from "../../utils/store";
 import { useDebounce } from "@uidotdev/usehooks";
 export function HeaderNav({}) {
   const [query, setQuery] = useState("");
 
-  const setFilter = usePokemonListItemStore((state) => state.setFilter);
+  const setFilter = useFilterStore((state) => state.setFilter);
   const debouncedSearchTerm = useDebounce(query, 250);
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { PokemonV2Pokemon } from "../types";
 import React from "react";
 import { Ripple } from "primereact/ripple";
-import { PokemonTag } from "../PokemonTag";
+import { PokemonTag } from "../../shared/PokemonTag";
 import { POKETYPES } from "../../../utils/consts";
 import { cardDetails } from "../../../utils/card-aspects";
 

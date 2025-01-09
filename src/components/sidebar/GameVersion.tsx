@@ -1,13 +1,13 @@
 import { Ripple } from "primereact/ripple";
-import ChevronIcon from "../assets/ChevronIcon";
-import { GAME_VERSIONS } from "../utils/consts";
+import ChevronIcon from "../../assets/ChevronIcon";
+import { GAME_VERSIONS } from "../../utils/consts";
 import { useEffect, useState } from "react";
-import { usePokemonListItemStore } from "../utils/store";
+import { useFilterStore } from "../../utils/store";
 
 export default function GameVersion() {
   const [gameVersion, setGameVersion] = useState("0");
 
-  const setFilter = usePokemonListItemStore((state) => state.setVersion);
+  const setFilter = useFilterStore((state) => state.setVersion);
 
   useEffect(() => {
     let ver;

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
-import GameVersion from "../components/GameVersion";
+import Header from "../components/sidebar/Header";
+import GameVersion from "../components/sidebar/GameVersion";
 
 export default function Root() {
   window.matchMedia("(prefers-color-scheme: light)");
