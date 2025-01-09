@@ -1,5 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import { getRoute } from "../../../utils/utils.functions";
+import {
+  getGameVersion,
+  getRoute,
+  isOntheCurrentVersionById,
+} from "../../../utils/utils.functions";
 import { PokemonTag } from "../PokemonTag";
 import BackIcon from "../../../assets/BackIcon";
 import { Ripple } from "primereact/ripple";
@@ -174,61 +178,74 @@ const PokemonEvolItem: React.FC<{
     <>
       <article
         className={twMerge(
-          "p-ripple border-round flex w-28 flex-col items-center rounded-xl",
+          "p-ripple border-round flex min-w-28 max-w-32 flex-col items-center rounded-xl",
           margin,
         )}
       >
-        <Link
-          relative={"path"}
-          to={`../${pokemon.id}`}
-          className="flex flex-col items-center justify-center"
-        >
-          <Ripple
-            pt={{
-              root: {
-                style: {
-                  backgroundColor: "#245",
-                },
-              },
-            }}
-          />
-          <img
-            className="pointer-events-none -mb-3 h-28 w-28 scale-110 select-none overflow-visible"
-            src={getRoute(pokemon.id)}
-            alt={pokemon.name}
-          />
-          {<h2 className="font-semibold capitalize">{pokemon.name}</h2>}
-          <div className="flex w-36 flex-row flex-wrap justify-center gap-2 px-2">
-            <PokemonTag
-              padding="px-1 min-w-12"
-              id={
-                pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
-                  .pokemon_v2_type.id
-              }
-              id2={
-                pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
-                  .pokemon_v2_type.id
-              }
-              responsive={false}
-            ></PokemonTag>
-            {pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.length >
-              1 && (
-              <PokemonTag
-                responsive={false}
-                padding="px-1 min-w-12"
-                id={
-                  pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
-                    .pokemon_v2_type.id
-                }
-                id2={
-                  pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
-                    .pokemon_v2_type.id
-                }
-              ></PokemonTag>
-            )}
-          </div>
-        </Link>
+        {isOntheCurrentVersionById(pokemon.id, +getGameVersion()) ? (
+          <Link
+            relative={"path"}
+            to={`../${pokemon.id}`}
+            className="flex flex-col items-center justify-center"
+          >
+            <PokemonEvolItemContent pokemon={pokemon}></PokemonEvolItemContent>
+          </Link>
+        ) : (
+          <PokemonEvolItemContent pokemon={pokemon}></PokemonEvolItemContent>
+        )}
       </article>
+    </>
+  );
+};
+
+const PokemonEvolItemContent: React.FC<{
+  pokemon: PokemonV2PokemonspecyElement;
+}> = ({ pokemon }) => {
+  return (
+    <>
+      <Ripple
+        pt={{
+          root: {
+            style: {
+              backgroundColor: "#245",
+            },
+          },
+        }}
+      />
+      <img
+        className="pointer-events-none -mb-1 h-28 w-28 scale-110 select-none overflow-visible"
+        src={getRoute(pokemon.id)}
+        alt={pokemon.name}
+      />
+      {<h2 className="font-semibold capitalize">{pokemon.name}</h2>}
+      <div className="flex w-36 flex-row flex-wrap justify-center gap-2 px-2">
+        <PokemonTag
+          padding="px-1 min-w-12"
+          id={
+            pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
+              .pokemon_v2_type.id
+          }
+          id2={
+            pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[0]
+              .pokemon_v2_type.id
+          }
+          responsive={false}
+        ></PokemonTag>
+        {pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes.length > 1 && (
+          <PokemonTag
+            responsive={false}
+            padding="px-1 min-w-12"
+            id={
+              pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
+                .pokemon_v2_type.id
+            }
+            id2={
+              pokemon.pokemon_v2_pokemons[0].pokemon_v2_pokemontypes[1]
+                .pokemon_v2_type.id
+            }
+          ></PokemonTag>
+        )}
+      </div>
     </>
   );
 };

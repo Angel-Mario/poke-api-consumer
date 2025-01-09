@@ -12,12 +12,10 @@ import classNames from "classnames";
 
 interface PokemonListItemFunc {
   pokemonListItemData: PokemonListItemData;
-  pokemonIdManager: (id: number) => void;
 }
 
 export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
   pokemonListItemData,
-  pokemonIdManager,
 }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -25,9 +23,6 @@ export const PokemonListItem: React.FC<PokemonListItemFunc> = ({
     pokemonListItemData.id && (
       <article
         className="p-ripple z-30 h-auto w-40 cursor-pointer rounded-2xl shadow-sm shadow-gray-600 hover:-translate-y-1 mlarge:w-48 2xl:w-56"
-        onClick={() => {
-          pokemonIdManager(pokemonListItemData.id);
-        }}
         style={{
           backgroundColor:
             cardTheme[

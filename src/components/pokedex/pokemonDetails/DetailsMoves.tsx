@@ -19,7 +19,7 @@ export const DetailsMoves: React.FC<Props> = ({ pokemon }) => {
             {pokemon.pokemon_v2_pokemonmoves.map((move, index) => (
               <div
                 key={`${move.move_id}-${index}`}
-                className="p-ripple flex h-16 flex-row items-center gap-x-1 rounded-full border border-slate-200 p-3 pe-2 ps-4 shadow-md shadow-slate-200"
+                className="p-ripple flex h-16 flex-row items-center gap-x-1 rounded-full border border-slate-200 bg-gray-50 p-3 pe-2 ps-4 shadow-md shadow-slate-200"
               >
                 <Ripple
                   pt={{

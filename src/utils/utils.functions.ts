@@ -3,6 +3,7 @@ import {
   PokemonListItemData,
   PokemonListItemDetails,
 } from "../components/pokedex/types";
+import { POKETYPES } from "./consts";
 
 const src = `https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/`;
 
@@ -70,14 +71,12 @@ export function setPokemonDataDetails(pokemon: PokemonListItemDetails): void {
         `pokListDetails-${getGameVersion()}`,
         JSON.stringify(storage),
       );
-      console.log("Metio");
     }
   } else {
     localStorage.setItem(
       `pokListDetails-${getGameVersion()}`,
       JSON.stringify(Array.of(pokemon)),
     );
-    console.log("Metio");
   }
 }
 
@@ -105,19 +104,63 @@ export function filterPokemons(
   filter: string,
   columns: number,
 ): PokemonListItemData[][] {
+  const filtered = filterListPokemons(pokemons, version, filter);
+
+  return toTwoDimensionalArray(filtered, columns);
+}
+
+export function filterListPokemons(
+  pokemons: PokemonListItemData[],
+  version: number,
+  filter: string,
+): PokemonListItemData[] {
+  let key: number | undefined = undefined;
+
+  Object.entries(POKETYPES).forEach((value) => {
+    if (filter.toLocaleLowerCase() == value[1].toLocaleLowerCase()) {
+      key = +value[0];
+      console.log(key, value[0], value[1]);
+    }
+  });
+
   const filtered = pokemons.filter((item) => {
     return (
       (filter.length == 0 ||
         item.id.toString().includes(filter) ||
-        item.name.includes(filter.toLocaleLowerCase())) &&
+        item.name.includes(filter.toLocaleLowerCase()) ||
+        item.pokemon_v2_pokemontypes[0].pokemon_v2_type.id == key ||
+        (item.pokemon_v2_pokemontypes[1] &&
+          item.pokemon_v2_pokemontypes[1].pokemon_v2_type.id == key)) &&
       item.id < 1026 &&
-      item.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0]
-        .pokemon_v2_version.id <=
-        version + 1
+      isOntheCurrentVersion(item, version)
     );
   });
 
-  return toTwoDimensionalArray(filtered, columns);
+  return filtered;
+}
+
+export function isOntheCurrentVersion(
+  pokemon: PokemonListItemData,
+  version: number,
+): boolean {
+  return (
+    pokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0]
+      .pokemon_v2_version.id <=
+    version + 1
+  );
+}
+export function isOntheCurrentVersionById(
+  id: number,
+  version: number,
+): boolean {
+  let flavorId = getPokemonList()?.find((value) => value.id == id)
+    ?.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesflavortexts[0]
+    .pokemon_v2_version.id;
+
+  if (flavorId == undefined) {
+    return false;
+  }
+  return flavorId <= version + 1;
 }
 
 type ObjectArray = Record<string, any>[];
@@ -145,10 +188,8 @@ export function manageHeartClick(
   setFavorite: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
   if (isFavorite) {
-    console.log("descorazonado");
     unsetPokemonFavorite(id);
   } else {
-    console.log("encorazonado");
     setPokemonFavorite(id);
   }
   setFavorite(!isFavorite);
@@ -179,7 +220,7 @@ function unsetPokemonFavorite(id: number = -1) {
     }
   }
 }
-function getGameVersion(): string {
+export function getGameVersion(): string {
   const storageString = localStorage.getItem("gameVer");
   if (storageString && storageString != "undefined") {
     return storageString;

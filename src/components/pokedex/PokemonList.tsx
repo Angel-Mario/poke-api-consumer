@@ -13,12 +13,11 @@ import { QUERY_POKEMON_DETAILS } from "../../utils/consts.ts";
 import React from "react";
 import { PokemonListItemData, PokemonListItemDetails } from "./types";
 
-interface Props {
-  idManager: (id: number) => void;
-}
+interface Props {}
 
-export const PokemonList: React.FC<Props> = ({ idManager }) => {
+export const PokemonList: React.FC<Props> = ({}) => {
   const pokemons = usePokemonListItemStore((state) => state.pokemons);
+
   const filterText = usePokemonListItemStore((state) => state.filter);
   const ver = usePokemonListItemStore((state) => state.version);
 
@@ -48,7 +47,6 @@ export const PokemonList: React.FC<Props> = ({ idManager }) => {
             <PokemonListItem
               pokemonListItemData={pokemonItem}
               key={`ListItem${pokemonItem.id}`}
-              pokemonIdManager={idManager}
             ></PokemonListItem>
           );
         })}
@@ -141,11 +139,8 @@ async function requestPokemonDetails(
     "https://beta.pokeapi.co/graphql/v1beta",
     requestOptions,
   );
-  console.log(id);
   console.log(response);
 
-  // const data = mockePokeDetails;
   const data = await response.json();
-  console.log(data);
   return data;
 }

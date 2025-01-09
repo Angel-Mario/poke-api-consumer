@@ -19,7 +19,6 @@ export default function GameVersion() {
 
   useEffect(() => {
     setFilter(gameVersion);
-    console.log("seteo version", gameVersion);
   }, [gameVersion]);
 
   return (
@@ -55,16 +54,12 @@ export default function GameVersion() {
 }
 
 function manageChange(change: number): string {
-  console.log("change", change);
   if (change < 0) {
     localStorage.setItem("gameVer", `${GAME_VERSIONS.length - 1}`);
-    console.log("1");
   } else if (change == GAME_VERSIONS.length) {
     localStorage.setItem("gameVer", "0");
-    console.log("2");
   } else {
     localStorage.setItem("gameVer", `${change}`);
-    console.log("3");
   }
   return localStorage.getItem("gameVer")!;
 }

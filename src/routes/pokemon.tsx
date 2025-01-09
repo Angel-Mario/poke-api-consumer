@@ -30,25 +30,20 @@ export default function Pokemon() {
   //hooks
   const loaderListAll = useLoaderData() as PokemonListItemData[] | undefined;
 
-  const [isDialogVisible, setDialogVisible] = useState(false);
-  const [pokemonid, setPokemonId] = useState(1);
+  const [isDialogVisible, setDialogVisible] = useState<undefined | boolean>(
+    undefined,
+  );
+  const [pokemonID, setPokemonID] = useState<undefined | number>(undefined);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const pokemonIdManager = (id: number) => {
-    setPokemonId(id);
-  };
-
   const { state } = useNavigation();
 
   useEffect(() => {
-    if (
-      (!location.pathname.endsWith("pokemon") ||
-        !location.pathname.endsWith("pokemon/")) &&
-      !isDialogVisible
-    ) {
+    if (isDialogVisible == false) {
       navigate("");
+      console.log("Hola", location.pathname, isDialogVisible);
     }
   }, [isDialogVisible]);
 
@@ -58,23 +53,17 @@ export default function Pokemon() {
 
     if (!isNaN(+splitedPaths[splitedPaths.length - 1])) {
       if (+splitedPaths[splitedPaths.length - 1] != 0) {
-        setPokemonId(+splitedPaths[splitedPaths.length - 1]);
+        setPokemonID(+splitedPaths[splitedPaths.length - 1]);
         if (!isDialogVisible) setDialogVisible(true);
       }
-      console.log("popo");
     } else {
       if (
         isDialogVisible &&
         splitedPaths[splitedPaths.length - 1].includes("pokemon")
       ) {
         setDialogVisible(false);
-        console.log("caca");
       }
-      console.log(isDialogVisible);
     }
-    return () => {
-      setDialogVisible(false);
-    };
   }, [location]);
 
   useEffect(() => {
@@ -88,11 +77,10 @@ export default function Pokemon() {
     <>
       <div className="h-full w-fillAvailable sm:flex sm:h-fillAvailable sm:flex-row">
         <div className="h-full w-fillAvailable sm:h-fillAvailable sm:pl-1">
-          {loaderListAll && <PokemonList idManager={pokemonIdManager} />}
+          {loaderListAll && <PokemonList />}
         </div>
 
         <Dialog
-          pt={{}}
           unstyled
           dismissableMask
           modal
@@ -111,7 +99,7 @@ export default function Pokemon() {
             <>
               <div className="absolute z-50 h-screen w-screen overflow-hidden sm:w-[30rem] sm:rounded-3xl">
                 <article className="relative h-screen overflow-hidden sm:rounded-tl-xl">
-                  <DetailsBasic pokemon={getPokemonListItem(pokemonid)!} />
+                  <DetailsBasic pokemon={getPokemonListItem(pokemonID)!} />
                   <section className="absolute z-30 -mt-9 h-fillAvailable w-full rounded-t-[2.5rem] bg-white shadow-2xl sm:rounded-b-[2.5rem]">
                     {state !== "loading" && (
                       <article className="relative h-fillAvailable overflow-hidden sm:rounded-tl-xl">
