@@ -2,16 +2,9 @@ import { PokemonListItem } from "./PokemonListItem";
 import { usePokemonListItemStore } from "../../utils/store.ts";
 import { VirtualScroller } from "primereact/virtualscroller";
 
-import {
-  filterPokemons,
-  getGenerationByVersion,
-  getPokemonDataDetails,
-  setPokemonDataDetails,
-} from "../../utils/utils.functions.ts";
-import { LoaderFunctionArgs } from "react-router-dom";
-import { QUERY_POKEMON_DETAILS } from "../../utils/consts.ts";
+import { filterPokemons } from "../../utils/utils.functions.ts";
 import React, { useMemo } from "react";
-import { PokemonListItemData, PokemonListItemDetails } from "./types";
+import { PokemonListItemData } from "./types";
 import useMediaQueryHook from "../../hooks/useMediaQueryHook.ts";
 import useFilterStoreHook from "../../hooks/useFilterStoreHook.ts";
 
@@ -27,7 +20,7 @@ export const PokemonList: React.FC<Props> = ({}) => {
     isMediumDevice,
     isLargeDevice,
     isExtraLargeDevice,
-  } = useMediaQueryHook();
+  } = useMediaQueryHook({ fiveBP: 1820 });
 
   const { filterText, ver } = useFilterStoreHook();
 
@@ -106,55 +99,5 @@ function getColsByMedia(
   if (isLargeDevice) return 4;
   if (isMediumDevice || isSemiSmallDevice) return 3;
   if (isSmallDevice || isSemiMediumDevice) return 2;
-  return 4;
-}
-
-export async function loader({ params }: LoaderFunctionArgs<{ id: string }>) {
-  const pokemonDetailsLocalStorage = getPokemonDataDetails(+params.id!);
-  if (pokemonDetailsLocalStorage != undefined) {
-    return pokemonDetailsLocalStorage;
-  }
-  const pokemonDetails = await getPokemonDetails(params.id!).catch((_error) => {
-    return undefined;
-  });
-  console.log("detallito", pokemonDetails);
-
-  if (pokemonDetails) {
-    setPokemonDataDetails(pokemonDetails);
-  }
-  return pokemonDetails;
-}
-
-const getPokemonDetails = (id: string) => {
-  return requestPokemonDetails(id);
-};
-
-async function requestPokemonDetails(
-  id: string,
-): Promise<PokemonListItemDetails | undefined> {
-  let version = localStorage.getItem("gameVer");
-  if (version == undefined) {
-    version = "0";
-  }
-
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(
-      QUERY_POKEMON_DETAILS(
-        id,
-        +version + 1,
-        getGenerationByVersion(+version + 1),
-      ),
-    ),
-  };
-
-  const response = await fetch(
-    "https://beta.pokeapi.co/graphql/v1beta",
-    requestOptions,
-  );
-  console.log(response);
-
-  const data = await response.json();
-  return data;
+  return 6;
 }

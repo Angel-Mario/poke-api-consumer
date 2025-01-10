@@ -118,7 +118,6 @@ export function filterListPokemons(
   Object.entries(POKETYPES).forEach((value) => {
     if (filter.toLocaleLowerCase() == value[1].toLocaleLowerCase()) {
       key = +value[0];
-      console.log(key, value[0], value[1]);
     }
   });
 
@@ -263,13 +262,14 @@ export function getGameVersion(): string {
 }
 
 export const getGenerationByVersion = (version: number) => {
+  let gen = -1;
   generationVersion.pokemon_v2_generation.forEach((generation) => {
     generation.pokemon_v2_versiongroups.forEach((versiongroup) => {
       if (versiongroup.id == version) {
-        return generation.id;
+        gen = generation.id;
       }
     });
   });
 
-  return 1;
+  return gen;
 };

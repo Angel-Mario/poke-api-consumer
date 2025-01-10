@@ -11,7 +11,6 @@ import { getGenerationByVersion } from "../../utils/utils.functions.ts";
 
 export const MoveList: React.FC = () => {
   const moves = useMovesListStore((state) => state.moves);
-  console.log("first", moves);
   const { filterText, ver } = useFilterStoreHook();
 
   const {
@@ -21,7 +20,14 @@ export const MoveList: React.FC = () => {
     isMediumDevice,
     isLargeDevice,
     isExtraLargeDevice,
-  } = useMediaQueryHook();
+  } = useMediaQueryHook({
+    zeroBP: 375,
+    firstBP: 420,
+    secondBP: 565,
+    thirdBP: 639,
+    fourBP: 770,
+    fiveBP: 1210,
+  });
 
   const filteredMoves = useMemo(() => {
     return filterMoves(
@@ -40,7 +46,7 @@ export const MoveList: React.FC = () => {
   }, [
     moves,
     filterText,
-    ver,
+    getGenerationByVersion(+ver + 1),
     isSmallDevice,
     isSemiSmallDevice,
     isSemiMediumDevice,
@@ -69,11 +75,10 @@ export const MoveList: React.FC = () => {
   return (
     <>
       <div className="mb-1 mt-1 h-full w-fillAvailable rounded-xl bg-white pr-0 sm:h-fillAvailable sm:ps-3">
-        aaaaaaaaa
         <VirtualScroller
           items={filteredMoves}
           columns={1}
-          itemSize={120}
+          itemSize={80}
           showSpacer
           numToleratedItems={1}
           itemTemplate={itemTemplate}
@@ -95,9 +100,10 @@ function getColsByMedia(
   isLargeDevice: boolean,
   isExtraLargeDevice: boolean,
 ): number {
-  if (isExtraLargeDevice) return 5;
-  if (isLargeDevice) return 4;
+  if (isExtraLargeDevice) return 3;
+  if (isLargeDevice) return 2;
   if (isMediumDevice || isSemiSmallDevice) return 3;
-  if (isSmallDevice || isSemiMediumDevice) return 2;
+  if (isSemiMediumDevice) return 2;
+  if (isSmallDevice) return 1;
   return 4;
 }

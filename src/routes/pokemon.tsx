@@ -9,19 +9,11 @@ import { Dialog } from "primereact/dialog";
 import { useEffect, useRef, useState } from "react";
 import { PokemonList } from "../components/pokemons/PokemonList.tsx";
 import { usePokemonListItemStore } from "../utils/store.ts";
-import { QUERY_POKEMON_LIST } from "../utils/consts.ts";
 import { DetailsBasic } from "../components/pokemons/pokemonDetails/DetailsBasic.tsx";
 
 import { ProgressSpinner } from "primereact/progressspinner";
-import {
-  getPokemonList,
-  getPokemonListItem,
-  setPokemonList,
-} from "../utils/utils.functions.ts";
-import {
-  PokemonListItemData,
-  PokemonListItemDataList,
-} from "../components/pokemons/types";
+import { getPokemonListItem } from "../utils/utils.functions.ts";
+import { PokemonListItemData } from "../components/pokemons/types";
 
 export default function Pokemon() {
   const setList = usePokemonListItemStore((state) => state.setList);
@@ -125,46 +117,4 @@ export default function Pokemon() {
       </div>
     </>
   );
-}
-
-export async function loader() {
-  const pokemonListLocalStorage = getPokemonList();
-  if (
-    pokemonListLocalStorage != undefined &&
-    pokemonListLocalStorage.length > 0
-  ) {
-    return pokemonListLocalStorage;
-  }
-  const pokemonList = await getPokemonListExt().catch((_error) => {
-    return undefined;
-  });
-
-  if (pokemonList) {
-    setPokemonList(pokemonList.data.pokemon_v2_pokemon);
-  }
-  return pokemonList?.data.pokemon_v2_pokemon;
-}
-
-const getPokemonListExt = () => {
-  return requestPokemonList();
-};
-
-async function requestPokemonList(): Promise<
-  PokemonListItemDataList | undefined
-> {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(QUERY_POKEMON_LIST),
-  };
-
-  const response = await fetch(
-    "https://beta.pokeapi.co/graphql/v1beta",
-    requestOptions,
-  );
-  console.log(response);
-
-  const data = await response.json();
-  console.log(data);
-  return data;
 }

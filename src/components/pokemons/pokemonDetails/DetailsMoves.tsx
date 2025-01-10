@@ -1,7 +1,6 @@
 import { ScrollPanel } from "primereact/scrollpanel";
 import { PokemonV2Pokemon } from "../types";
 import React from "react";
-import { Ripple } from "primereact/ripple";
 import { PokemonTag } from "../../shared/PokemonTag";
 import { POKETYPES } from "../../../utils/consts";
 import { cardDetails } from "../../../utils/card-aspects";
@@ -19,17 +18,8 @@ export const DetailsMoves: React.FC<Props> = ({ pokemon }) => {
             {pokemon.pokemon_v2_pokemonmoves.map((move, index) => (
               <div
                 key={`${move.move_id}-${index}`}
-                className="p-ripple flex h-16 flex-row items-center gap-x-1 rounded-full border border-slate-200 bg-gray-50 p-3 pe-2 ps-4 shadow-md shadow-slate-200"
+                className="relative flex h-16 flex-row items-center gap-x-1 overflow-hidden rounded-full border border-slate-200 bg-gray-50 p-3 pe-2 ps-4 shadow-md shadow-slate-200"
               >
-                <Ripple
-                  pt={{
-                    root: {
-                      style: {
-                        backgroundColor: "rgb(172, 172, 172)",
-                      },
-                    },
-                  }}
-                ></Ripple>
                 <div className="absolute mx-2 flex w-24 -translate-y-5 flex-row gap-x-2">
                   <h2 className="w-2/5 border-b-2 text-center text-xs font-medium">
                     LV{move.level}
@@ -53,7 +43,7 @@ export const DetailsMoves: React.FC<Props> = ({ pokemon }) => {
                   )}
                 </h1>
                 <div
-                  className="absolute right-0 h-28 w-2/12 rotate-[24deg] bg-black"
+                  className="absolute right-0 h-28 w-2/12 rotate-[24deg]"
                   style={{
                     backgroundColor:
                       cardDetails[POKETYPES[move.pokemon_v2_move.type_id]],

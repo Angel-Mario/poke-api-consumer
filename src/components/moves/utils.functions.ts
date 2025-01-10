@@ -41,18 +41,18 @@ export function filterListMove(
   Object.entries(POKETYPES).forEach((value) => {
     if (filter.toLocaleLowerCase() == value[1].toLocaleLowerCase()) {
       key = +value[0];
-      console.log(key, value[0], value[1]);
     }
   });
 
-  console.log("before", generation, moves);
   const filtered = moves.filter((item) => {
     return (
-      filter.length == 0 ||
-      item.id.toString().includes(filter) ||
-      item.name.includes(filter.toLocaleLowerCase()) ||
-      item.type_id == key
-      // &&      item.generation_id == generation
+      (filter.length == 0 ||
+        item.id.toString().includes(filter) ||
+        item.name.includes(filter.toLocaleLowerCase()) ||
+        item.type_id == key) &&
+      item.pokemon_v2_moveeffect?.pokemon_v2_moveeffecteffecttexts.length ==
+        1 &&
+      (generation == -1 || item.generation_id == generation)
     );
   });
 

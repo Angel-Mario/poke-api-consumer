@@ -36,8 +36,5 @@ interface MovesListState {
 
 export const useMovesListStore = create<MovesListState>()((set) => ({
   moves: [],
-  setList: (by: PokemonV2Move[]) => {
-    console.log("stado", by);
-    set((_prevState) => ({ moves: by }));
-  },
+  setList: (by: PokemonV2Move[]) => set((_prevState) => ({ moves: by })),
 }));

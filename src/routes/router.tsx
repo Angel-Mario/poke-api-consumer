@@ -5,9 +5,10 @@ import Root from "./root";
 import { TAILWINDVALUE } from "../utils/tailwindValue";
 
 // loaders
-import Pokemon, { loader as pokedexLoader } from "../routes/pokemon";
-import { loader as pokedexItemDetailsLoader } from "../components/pokemons/PokemonList";
-import { loader as movesLoader } from "../routes/moves";
+import Pokemon from "../routes/pokemon";
+import { loader as pokedexItemDetailsLoader } from "../routes/loaders/pokemonDetailsLoader";
+import { loader as movesLoader } from "../routes/loaders/movesLoader";
+import { loader as pokemonLoader } from "../routes/loaders/pokemonLoader";
 
 export const ROUTER = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ export const ROUTER = createBrowserRouter([
       {
         path: "pokemon/",
         element: <Pokemon />,
-        loader: pokedexLoader,
+        loader: pokemonLoader,
         children: [
           {
             path: ":id",
@@ -42,13 +43,24 @@ export const ROUTER = createBrowserRouter([
         loader: movesLoader,
         lazy: async () => {
           let { default: Moves } = await import("./moves.tsx");
-          console.log(Moves);
           return { Component: Moves };
         },
       },
       {
         path: "abilities/",
-        element: <Pokemon />,
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
+      },
+      {
+        path: "items/",
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
+      },
+      {
+        path: "locations/",
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
+      },
+      {
+        path: "types/",
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
       },
     ],
   },
@@ -65,7 +77,7 @@ export const ROUTER = createBrowserRouter([
       {
         path: "pokemon/",
         element: <Pokemon />,
-        loader: pokedexLoader,
+        loader: pokemonLoader,
         children: [
           {
             path: ":id",
@@ -83,13 +95,25 @@ export const ROUTER = createBrowserRouter([
         path: "moves/",
         loader: movesLoader,
         lazy: async () => {
-          let { MoveList } = await import("../components/moves/MoveList.tsx");
-          return { Component: MoveList };
+          let { default: Moves } = await import("./moves.tsx");
+          return { Component: Moves };
         },
       },
       {
         path: "abilities/",
-        element: <Pokemon />,
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
+      },
+      {
+        path: "items/",
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
+      },
+      {
+        path: "locations/",
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
+      },
+      {
+        path: "types/",
+        element: <h1 className="text-center">WORK IN PROGRES :v</h1>,
       },
     ],
   },
