@@ -3,11 +3,11 @@ import { toTwoDimensionalArray } from "../../utils/utils.functions";
 import { PokemonV2Move } from "./types";
 
 export function setMoveList(moves: PokemonV2Move[]): void {
-  localStorage.setItem("movList", JSON.stringify(moves));
+  sessionStorage.setItem("movList", JSON.stringify(moves));
 }
 
 export function getMoveList(): PokemonV2Move[] | undefined {
-  const storageString = localStorage.getItem("movList");
+  const storageString = sessionStorage.getItem("movList");
   if (
     storageString &&
     storageString != "undefined" &&

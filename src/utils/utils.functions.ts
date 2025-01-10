@@ -60,20 +60,20 @@ export function getIfPokemonFavorite(id: number = -1): boolean {
 }
 
 export function setPokemonDataDetails(pokemon: PokemonListItemDetails): void {
-  const storageString = localStorage.getItem(
+  const storageString = sessionStorage.getItem(
     `pokListDetails-${getGameVersion()}`,
   );
   if (storageString && storageString != "undefined") {
     let storage = <PokemonListItemDetails[]>JSON.parse(storageString);
     if (storage) {
       storage.push(pokemon);
-      localStorage.setItem(
+      sessionStorage.setItem(
         `pokListDetails-${getGameVersion()}`,
         JSON.stringify(storage),
       );
     }
   } else {
-    localStorage.setItem(
+    sessionStorage.setItem(
       `pokListDetails-${getGameVersion()}`,
       JSON.stringify(Array.of(pokemon)),
     );
@@ -83,7 +83,7 @@ export function setPokemonDataDetails(pokemon: PokemonListItemDetails): void {
 export function getPokemonDataDetails(
   id: number = -1,
 ): PokemonListItemDetails | undefined {
-  const storageString = localStorage.getItem(
+  const storageString = sessionStorage.getItem(
     `pokListDetails-${getGameVersion()}`,
   );
   if (
@@ -201,11 +201,11 @@ function unsetPokemonFavorite(id: number = -1) {
 }
 
 export function setPokemonList(pokemons: PokemonListItemData[]): void {
-  localStorage.setItem("pokList", JSON.stringify(pokemons));
+  sessionStorage.setItem("pokList", JSON.stringify(pokemons));
 }
 
 export function getPokemonList(): PokemonListItemData[] | undefined {
-  const storageString = localStorage.getItem("pokList");
+  const storageString = sessionStorage.getItem("pokList");
   if (
     storageString &&
     storageString != "undefined" &&
@@ -221,7 +221,7 @@ export function getPokemonList(): PokemonListItemData[] | undefined {
 export function getPokemonListItem(
   id: number = -1,
 ): PokemonListItemData | undefined {
-  const storageString = localStorage.getItem("pokList");
+  const storageString = sessionStorage.getItem("pokList");
   if (
     storageString &&
     storageString != "undefined" &&
