@@ -60,9 +60,8 @@ export const DetailsStats: React.FC<Props> = ({ pokemon }) => {
               ></PokemonStatBar>
             </section>
             <h1 className="mb-1 mt-3 text-xl font-bold">Type defenses</h1>
-            <div className="mb-1 flex flex-row text-justify font-semibold">
-              <h2>The effectiveness of each type on </h2>
-              <h2 className="ms-1 capitalize">{pokemon.name}.</h2>
+            <div className="mb-1 flex flex-row text-justify font-semibold capitalize">
+              <h2>The effectiveness of each type on {` ${pokemon.name}`}.</h2>
             </div>
             <section className="mb-2 mt-1 inline-grid w-full grid-cols-3 flex-col gap-y-2 font-semibold">
               {Object.values(cardTheme)
