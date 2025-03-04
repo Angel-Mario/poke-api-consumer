@@ -1,8 +1,12 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Tailwind
 
-Pokedex Api Consumer that uses the Graphql part of the pokeApi for a reduced packet transfer
+Pokedex API consumer that uses the Graphql part of pokeApi to achieve a reduced packet transfer system
 
-⚠️Api is currently 502
+## github pages deployment: <https://github.com/Angel-Mario/poke-api-consumer/deployments/github-pages>
 
-github page deployment
-<https://github.com/Angel-Mario/poke-api-consumer/deployments/github-pages>
+## Screenshots
+
+**Mobile**
+![single](.assets/mobile.png)
+**Desktop**
+![list](.assets/desktop.png)
